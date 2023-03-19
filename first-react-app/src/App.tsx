@@ -4,15 +4,15 @@ import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
 
 export function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="about-us" element={<About />} />
       </Routes>
     </>
   );

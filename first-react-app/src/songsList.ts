@@ -42,7 +42,7 @@ export const songs = [
   },
   {
     id: 6,
-    name: "Ionic Funk (20XXX Battle Music)",
+    name: "Ionic Funk",
     artist: "Machine Girl",
     image:
       "https://i.discogs.com/-i_wUzsLdHYCfrue1cXX-TiaLD6vk_zCbZuBYuN-UXo/rs:fit/g:sm/q:90/h:350/w:350/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU0NjA1/NTgtMTM5MzkzOTA5/OS0yNzcyLmpwZWc.jpeg",

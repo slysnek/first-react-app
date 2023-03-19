@@ -12,7 +12,7 @@ function Home() {
         <Link className="link" to="/">
           Home
         </Link>
-        <SearchBar></SearchBar>
+        <SearchBar search={localStorage.getItem("searchValue") as string}></SearchBar>
         <Link className="link" to="about-us">
           About us
         </Link>

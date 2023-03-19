@@ -62,6 +62,7 @@ a:hover {
   border: 1px solid #2fc3d4;
   border-radius: 4px;
   font-family: 'Oswald', sans-serif;
+  cursor: pointer;
 }
 
 .search-input:focus {
@@ -84,6 +85,12 @@ a:hover {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(2px);
   border-radius: 4px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.card:hover{
+  background-color: rgba(255, 255, 255, 0.5);;
 }
 
 .song-image {

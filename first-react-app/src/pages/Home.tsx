@@ -1,8 +1,6 @@
 import SearchBar from "../components/SearchBar";
 import React from "react";
 import { Link } from "react-router-dom";
-import Card from "../components/Card";
-import { songs } from "../songsList";
 import Cards from "../components/CardsShowcase";
 
 function Home() {
@@ -12,7 +10,7 @@ function Home() {
         <Link className="link" to="/">
           Home
         </Link>
-        <SearchBar search={localStorage.getItem("searchValue") as string}></SearchBar>
+        <SearchBar></SearchBar>
         <Link className="link" to="about-us">
           About us
         </Link>

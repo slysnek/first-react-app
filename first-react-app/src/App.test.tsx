@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import About from "./pages/About";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, it } from "vitest";
@@ -6,16 +7,9 @@ import { describe, it } from "vitest";
 import { WrappedApp, App } from "./App";
 
 describe("App", () => {
-  it("Renders hello world", () => {
-    //ARRANGE
+  it("Renders link buttons correctly", () => {
     render(<WrappedApp />);
-    //ACT
-    //EXPECT
-    expect(
-      screen.getByRole("heading", {
-        level: 1,
-      })
-    ).toHaveTextContent("Hello World");
+    expect(screen.getAllByRole("link")).toBeVisible;
   });
   it("Renders 404 page when invalid path", () => {
     render(
@@ -28,5 +22,13 @@ describe("App", () => {
         level: 1,
       })
     ).toHaveTextContent("Page not found");
+  });
+  it("Renders home link button", () => {
+    render(
+      <MemoryRouter>
+        <About />
+      </MemoryRouter>
+    );
+    expect(screen.getAllByRole("link")).toBeVisible;
   });
 });

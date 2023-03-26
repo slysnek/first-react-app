@@ -13,13 +13,13 @@ function Home() {
         <Link className="link" to="/">
           Home
         </Link>
-        <SearchBar></SearchBar>
         <Link className="link" to="about-us">
           About us
         </Link>
         <Link className="link" to="forms">
           Forms
         </Link>
+        <SearchBar></SearchBar>
       </header>
       <Cards></Cards>
     </>

@@ -125,3 +125,11 @@ a:hover {
   font-family: 'Oswald', sans-serif;
   cursor: pointer;
 }
+
+.error-hidden{
+  visibility: hidden;
+}
+
+.error-visible{
+  visibility: visible;
+}

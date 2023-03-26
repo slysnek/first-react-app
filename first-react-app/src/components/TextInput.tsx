@@ -1,6 +1,9 @@
 import React from "react";
 
-class TextInput extends React.Component<object, { errorClass: string; errorText: string }> {
+class TextInput extends React.Component<
+  object,
+  { errorClass: string; errorText: string; hasError: boolean }
+> {
   textInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
     super(props);
@@ -8,6 +11,7 @@ class TextInput extends React.Component<object, { errorClass: string; errorText:
     this.state = {
       errorClass: "error-hidden",
       errorText: "The name of the song must be at least 4 characters long",
+      hasError: false,
     };
     this.handleError = this.handleError.bind(this);
   }
@@ -16,9 +20,10 @@ class TextInput extends React.Component<object, { errorClass: string; errorText:
     if (this.textInput.current!.value.length < 4) {
       this.setState({
         errorClass: "error-visible",
+        hasError: true,
       });
     } else {
-      this.setState({ errorClass: "error-hidden" });
+      this.setState({ errorClass: "error-hidden", hasError: false });
     }
   }
 

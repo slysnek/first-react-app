@@ -1,6 +1,9 @@
 import React from "react";
 
-class DateInput extends React.Component<object, { errorClass: string; errorText: string }> {
+class DateInput extends React.Component<
+  object,
+  { errorClass: string; errorText: string; hasError: boolean }
+> {
   dateInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
     super(props);
@@ -8,6 +11,7 @@ class DateInput extends React.Component<object, { errorClass: string; errorText:
     this.state = {
       errorClass: "error-hidden",
       errorText: "You cannot choose the future date",
+      hasError: false,
     };
     this.handleError = this.handleError.bind(this);
   }
@@ -17,9 +21,10 @@ class DateInput extends React.Component<object, { errorClass: string; errorText:
     if (inputDate > new Date()) {
       this.setState({
         errorClass: "error-visible",
+        hasError: true,
       });
     } else {
-      this.setState({ errorClass: "error-hidden" });
+      this.setState({ errorClass: "error-hidden", hasError: false });
     }
   }
 

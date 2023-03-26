@@ -2,6 +2,7 @@ import SearchBar from "../components/SearchBar";
 import React from "react";
 import { Link } from "react-router-dom";
 import Cards from "../components/CardsShowcase";
+import Input from "../components/Input";
 
 function Home() {
   return (
@@ -13,6 +14,9 @@ function Home() {
         <SearchBar></SearchBar>
         <Link className="link" to="about-us">
           About us
+        </Link>
+        <Link className="link" to="forms">
+          Forms
         </Link>
       </header>
       <Cards></Cards>

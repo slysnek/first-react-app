@@ -127,9 +127,10 @@ a:hover {
 }
 
 .error-hidden{
-  visibility: hidden;
+  display: none;
 }
 
 .error-visible{
-  visibility: visible;
+  display: block;
+  color: #f57f7f;
 }

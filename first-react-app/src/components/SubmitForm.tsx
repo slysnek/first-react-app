@@ -6,15 +6,22 @@ import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
 import UploadInput from "./UploadInput";
 
-class SubmitForm extends React.Component<object> {
+interface ISubmit extends Object {
+  isFormCorrect: (a: boolean) => void;
+}
+
+class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
   textRef: React.RefObject<TextInput>;
   dateRef: React.RefObject<DateInput>;
   selectRef: React.RefObject<SelectInput>;
   checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
-  constructor(props: object) {
+  constructor(props: ISubmit) {
     super(props);
+    this.state = {
+      errorClass: "error-hidden",
+    };
     this.textRef = React.createRef();
     this.dateRef = React.createRef();
     this.selectRef = React.createRef();
@@ -27,8 +34,16 @@ class SubmitForm extends React.Component<object> {
   handleErrors() {
     const isTextWrong = this.textRef.current?.state.hasError;
     const isDateWrong = this.dateRef.current?.state.hasError;
-    if (!isTextWrong && !isDateWrong) {
-      console.log("hooray");
+
+    if (isTextWrong || isDateWrong) {
+      this.setState({
+        errorClass: "error-visible",
+      });
+    } else {
+      this.setState({
+        errorClass: "error-hidden",
+      });
+      this.props.isFormCorrect(true);
     }
   }
 
@@ -41,6 +56,7 @@ class SubmitForm extends React.Component<object> {
         <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
         <RadioInput ref={this.radioRef}></RadioInput>
         <UploadInput ref={this.uploadRef}></UploadInput>
+        <p className={this.state.errorClass}>You have errors in form. Please correct them.</p>
         <button className="submit-button" onClick={this.handleErrors}>
           Submit
         </button>

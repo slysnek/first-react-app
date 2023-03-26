@@ -2,7 +2,6 @@ import SearchBar from "../components/SearchBar";
 import React from "react";
 import { Link } from "react-router-dom";
 import Cards from "../components/CardsShowcase";
-import Input from "../components/Input";
 import CurrentPage from "../components/CurrentPage";
 
 function Home() {

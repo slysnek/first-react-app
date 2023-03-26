@@ -1,19 +1,19 @@
 import React from "react";
 
-class CheckboxInput extends React.Component<object, { checked: boolean | undefined }> {
+class CheckboxInput extends React.Component<object, { checked: string | undefined }> {
   checkboxInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
     super(props);
     this.checkboxInput = React.createRef();
     this.state = {
-      checked: false,
+      checked: "false",
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange() {
     this.setState({
-      checked: this.checkboxInput.current?.checked,
+      checked: this.checkboxInput.current?.checked.toString(),
     });
   }
   render() {

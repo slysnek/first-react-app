@@ -134,3 +134,28 @@ a:hover {
   display: block;
   color: #f57f7f;
 }
+
+.form-cards{
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-card{
+  min-width: 240px;
+  width: 240px;
+  height: 320px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.form-card:hover{
+  background-color: rgba(255, 255, 255, 0.5);;
+}

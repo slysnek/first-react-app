@@ -1,15 +1,40 @@
 import React from "react";
 
-class DateInput extends React.Component<object> {
+class DateInput extends React.Component<object, { errorClass: string; errorText: string }> {
+  dateInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
     super(props);
+    this.dateInput = React.createRef();
+    this.state = {
+      errorClass: "error-hidden",
+      errorText: "You cannot choose the future date",
+    };
+    this.handleError = this.handleError.bind(this);
+  }
+
+  handleError() {
+    const inputDate = new Date(this.dateInput.current!.value);
+    if (inputDate > new Date()) {
+      this.setState({
+        errorClass: "error-visible",
+      });
+    } else {
+      this.setState({ errorClass: "error-hidden" });
+    }
   }
 
   render() {
     return (
       <div className="submit-data-wrapper">
         <p>When was this song created?</p>
-        <input type="date" className="submit-data" />
+        <p className={this.state.errorClass}>{this.state.errorText}</p>
+        <input
+          defaultValue={"2023-01-01"}
+          ref={this.dateInput}
+          type="date"
+          className="submit-data"
+          onBlur={this.handleError}
+        />
       </div>
     );
   }

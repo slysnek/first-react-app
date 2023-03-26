@@ -3,21 +3,27 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SubmitForm from "../components/SubmitForm";
 
-function getData(val: boolean) {
-  console.log(val);
-  
-}
+class Forms extends React.Component<object> {
+  constructor(props: object) {
+    super(props);
+    this.getData = this.getData.bind(this);
+  }
 
-function Forms() {
-  return (
-    <div className="forms-page">
-      <CurrentPage currentPage={"Forms"}></CurrentPage>
-      <Link className="link" to="/">
-        To home page
-      </Link>
-      <SubmitForm isFormCorrect={getData}></SubmitForm>
-    </div>
-  );
+  getData(val: (string | boolean | undefined)[]) {
+    console.log(val);
+  }
+
+  render() {
+    return (
+      <div className="forms-page">
+        <CurrentPage currentPage={"Forms"}></CurrentPage>
+        <Link className="link" to="/">
+          To home page
+        </Link>
+        <SubmitForm isFormCorrect={this.getData}></SubmitForm>
+      </div>
+    );
+  }
 }
 
 export default Forms;

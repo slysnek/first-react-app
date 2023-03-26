@@ -6,8 +6,12 @@ import SelectInput from "./SelectInput";
 import TextInput from "./TextInput";
 import UploadInput from "./UploadInput";
 
+interface IFormData {
+  (a: (string | boolean | undefined)[]): void;
+}
+
 interface ISubmit extends Object {
-  isFormCorrect: (a: boolean) => void;
+  isFormCorrect: IFormData;
 }
 
 class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
@@ -43,7 +47,14 @@ class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
       this.setState({
         errorClass: "error-hidden",
       });
-      this.props.isFormCorrect(true);
+      const formData = [
+        this.textRef.current?.state.text,
+        this.dateRef.current?.state.date,
+        this.selectRef.current?.state.rating,
+        this.checkboxRef.current?.state.checked,
+        this.radioRef.current?.state.whoMade,
+      ];
+      this.props.isFormCorrect(formData);
     }
   }
 

@@ -1,8 +1,18 @@
 import React from "react";
 
-class RadioInput extends React.Component<object> {
+class RadioInput extends React.Component<object, { whoMade: string | undefined }> {
   constructor(props: object) {
     super(props);
+    this.state = {
+      whoMade: "By me",
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e: { currentTarget: { value: string } }) {
+    this.setState({
+      whoMade: e.currentTarget.value,
+    });
   }
 
   render() {
@@ -14,10 +24,19 @@ class RadioInput extends React.Component<object> {
           defaultChecked={true}
           type="radio"
           name="artist"
+          value="By me"
           className="submit-radio"
+          onChange={this.handleChange}
         />
         <label htmlFor="by-me">By me.</label>
-        <input id="by-someone" name="artist" type="radio" className="submit-radio" />
+        <input
+          onChange={this.handleChange}
+          id="by-someone"
+          name="artist"
+          value="By someone else"
+          type="radio"
+          className="submit-radio"
+        />
         <label htmlFor="by-someone">Someone else made this song.</label>
       </div>
     );

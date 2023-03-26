@@ -2,7 +2,7 @@ import React from "react";
 
 class DateInput extends React.Component<
   object,
-  { errorClass: string; errorText: string; hasError: boolean }
+  { errorClass: string; errorText: string; hasError: boolean; date: string | undefined }
 > {
   dateInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
@@ -12,6 +12,7 @@ class DateInput extends React.Component<
       errorClass: "error-hidden",
       errorText: "You cannot choose the future date",
       hasError: false,
+      date: "2023-01-01",
     };
     this.handleError = this.handleError.bind(this);
   }
@@ -24,7 +25,11 @@ class DateInput extends React.Component<
         hasError: true,
       });
     } else {
-      this.setState({ errorClass: "error-hidden", hasError: false });
+      this.setState({
+        errorClass: "error-hidden",
+        hasError: false,
+        date: this.dateInput.current?.value,
+      });
     }
   }
 

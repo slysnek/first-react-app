@@ -50,11 +50,14 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
         popUpClass: "confirm-visible",
         popUpText: "You have successfully created a card",
       });
+
+      const checkBoxValuetoString = this.checkboxRef.current!.state.checked as boolean;
+
       const formData = [
         this.textRef.current?.state.text as string,
         this.dateRef.current?.state.date as string,
         this.selectRef.current?.state.rating as string,
-        this.checkboxRef.current?.state.checked as string,
+        checkBoxValuetoString.toString() as string,
         this.radioRef.current?.state.whoMade as string,
         this.uploadRef.current?.state.pic as string,
       ];
@@ -73,6 +76,12 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
       this.selectRef.current?.setState({
         rating: "1",
       });
+      this.selectRef.current!.selectInput.current!.value = "1";
+
+      this.checkboxRef.current?.setState({
+        checked: false,
+      });
+      this.checkboxRef.current!.checkboxInput.current!.checked = false;
     }
   }
 

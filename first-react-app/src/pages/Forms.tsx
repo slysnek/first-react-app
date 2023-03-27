@@ -23,7 +23,7 @@ class Forms extends React.Component<object, { formCards: JSX.Element[]; key: num
         songName={data[0]}
         songDate={data[1]}
         songRating={data[2]}
-        songExplicit={data[3] ? "Yes" : "No"}
+        songExplicit={data[3] === "true" ? "Yes" : "No"}
         songAuthor={data[4]}
         songImage={data[5]}
         key={this.state.key}

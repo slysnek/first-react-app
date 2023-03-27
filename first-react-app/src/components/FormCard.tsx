@@ -1,4 +1,5 @@
 import React from "react";
+import note from "../assets/note.png";
 
 function FormCard(props: {
   songName: string;
@@ -14,11 +15,7 @@ function FormCard(props: {
       <div className="form-card">
         <h4 className="song-name">Song name: {songName}</h4>
         <p className="song-artist">Who created: {songAuthor}</p>
-        <img
-          className="song-image"
-          src={songImage ? songImage : "src/assets/note.png"}
-          alt="img probably won't load because it's local"
-        />
+        <img className="song-image" src={songImage ? songImage : note} alt="img didn't load :(" />
         <p className="song-genre">Rating: {songRating}</p>
         <p className="song-date">Date of creation: {songDate}</p>
         <p className="song-explicit">Has explicit content:{songExplicit}</p>

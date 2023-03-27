@@ -23,6 +23,14 @@ describe("App", () => {
       })
     ).toHaveTextContent("Page not found");
   });
+  it("Renders forms page", () => {
+    render(
+      <MemoryRouter initialEntries={["/forms"]}>
+        <App />
+      </MemoryRouter>
+    );
+    expect(screen.getByText("Current Page: Forms")).toBeTruthy();
+  });
   it("Renders home link button", () => {
     render(
       <MemoryRouter>

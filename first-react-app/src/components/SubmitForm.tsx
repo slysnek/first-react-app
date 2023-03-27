@@ -21,7 +21,6 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
   checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
-  formRef: React.RefObject<HTMLFormElement>;
   constructor(props: ISubmit) {
     super(props);
     this.state = {
@@ -34,7 +33,6 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
     this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
-    this.formRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
   }
 
@@ -63,22 +61,22 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
       this.props.isFormCorrect(formData);
 
       this.textRef.current?.setState({
-        text: this.textRef.current.textInput.current?.defaultValue,
+        text: "Best Song",
       });
+      this.textRef.current!.textInput.current!.value = "Best Song";
+
       this.dateRef.current?.setState({
         date: this.dateRef.current.dateInput.current?.defaultValue,
       });
       this.selectRef.current?.setState({
         rating: "1",
       });
-
-      this.formRef.current?.reset();
     }
   }
 
   render() {
     return (
-      <form ref={this.formRef} className="submit-wrapper">
+      <div className="submit-wrapper">
         <TextInput ref={this.textRef}></TextInput>
         <DateInput ref={this.dateRef}></DateInput>
         <SelectInput ref={this.selectRef}></SelectInput>
@@ -89,7 +87,7 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
         <button className="submit-button" onClick={this.handleErrors}>
           Submit
         </button>
-      </form>
+      </div>
     );
   }
 }

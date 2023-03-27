@@ -12,7 +12,7 @@ class TextInput extends React.Component<
       errorClass: "error-hidden",
       errorText: "The name of the song must be at least 4 characters long",
       hasError: false,
-      text: "My Best Song",
+      text: "Best Song",
     };
     this.handleError = this.handleError.bind(this);
   }
@@ -41,7 +41,7 @@ class TextInput extends React.Component<
           type="text"
           ref={this.textInput}
           className="submit-text"
-          defaultValue="My Best Song"
+          defaultValue="Best Song"
           onBlur={this.handleError}
         />
       </div>

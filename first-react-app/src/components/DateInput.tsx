@@ -39,7 +39,7 @@ class DateInput extends React.Component<
         <p>When was this song created?</p>
         <p className={this.state.errorClass}>{this.state.errorText}</p>
         <input
-          defaultValue={"2023-01-01"}
+          defaultValue="2023-01-01"
           ref={this.dateInput}
           type="date"
           className="submit-data"

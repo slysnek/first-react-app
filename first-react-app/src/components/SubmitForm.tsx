@@ -66,8 +66,10 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
       this.textRef.current!.textInput.current!.value = "Best Song";
 
       this.dateRef.current?.setState({
-        date: this.dateRef.current.dateInput.current?.defaultValue,
+        date: "2023-01-01",
       });
+      this.dateRef.current!.dateInput.current!.value = "2023-01-01";
+
       this.selectRef.current?.setState({
         rating: "1",
       });

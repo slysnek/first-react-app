@@ -14,12 +14,10 @@ class UploadInput extends React.Component<object, { pic: string | undefined }> {
   handleChange(e: { target: { files: FileList | null } }) {
     if (e.target.files && e.target.files[0]) {
       const img = e.target.files[0];
-      console.log(img);
       this.setState({
         pic: URL.createObjectURL(img),
       });
     }
-    console.log(this.state.pic);
   }
 
   render() {

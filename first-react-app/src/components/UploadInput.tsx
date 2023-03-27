@@ -1,19 +1,25 @@
 import React from "react";
 
 class UploadInput extends React.Component<object, { pic: string | undefined }> {
+  uploadInput: React.RefObject<HTMLInputElement>;
   constructor(props: object) {
     super(props);
+    this.uploadInput = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       pic: "",
     };
   }
 
-  handleChange(e: { currentTarget: { value: string } }) {
-    console.log(e.currentTarget.value);
-    this.setState({
-      pic: e.currentTarget.value,
-    });
+  handleChange(e: { target: { files: FileList | null } }) {
+    if (e.target.files && e.target.files[0]) {
+      const img = e.target.files[0];
+      console.log(img);
+      this.setState({
+        pic: URL.createObjectURL(img),
+      });
+    }
+    console.log(this.state.pic);
   }
 
   render() {
@@ -21,6 +27,7 @@ class UploadInput extends React.Component<object, { pic: string | undefined }> {
       <div className="submit-upload-wrapper">
         <p>Upload a picture for this song</p>
         <input
+          ref={this.uploadInput}
           onChange={this.handleChange}
           type="file"
           accept=".png,.jpg,.gif"

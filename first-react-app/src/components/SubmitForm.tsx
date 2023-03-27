@@ -82,6 +82,11 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
         checked: false,
       });
       this.checkboxRef.current!.checkboxInput.current!.checked = false;
+
+      this.uploadRef.current?.setState({
+        pic: "",
+      });
+      this.uploadRef.current!.uploadInput.current!.value = "";
     }
   }
 

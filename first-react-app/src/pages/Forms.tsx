@@ -29,6 +29,7 @@ class Forms extends React.Component<object, { formCards: JSX.Element[]; key: num
         key={this.state.key}
       ></FormCard>
     );
+    console.log(data[5]);
     this.setState({
       formCards: this.state.formCards.concat(newFormCard),
     });

@@ -135,6 +135,11 @@ a:hover {
   color: #f57f7f;
 }
 
+.confirm-visible{
+    display: block;
+    color: #89f57f;
+}
+
 .form-cards{
   padding: 16px;
   display: flex;
@@ -146,7 +151,7 @@ a:hover {
 .form-card{
   min-width: 240px;
   width: 240px;
-  height: 320px;
+  height: 400px;
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);

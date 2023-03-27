@@ -26,7 +26,6 @@ class SelectInput extends React.Component<object, { rating: string | undefined }
           onChange={this.handleChange}
           name="rating"
           className="submit-select"
-          defaultValue="My Best Song"
         >
           <option value="1">1</option>
           <option value="2">2</option>

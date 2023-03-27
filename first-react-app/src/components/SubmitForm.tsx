@@ -14,17 +14,19 @@ interface ISubmit extends Object {
   isFormCorrect: IFormData;
 }
 
-class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
+class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpText: string }> {
   textRef: React.RefObject<TextInput>;
   dateRef: React.RefObject<DateInput>;
   selectRef: React.RefObject<SelectInput>;
   checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
+  formRef: React.RefObject<HTMLFormElement>;
   constructor(props: ISubmit) {
     super(props);
     this.state = {
-      errorClass: "error-hidden",
+      popUpClass: "error-hidden",
+      popUpText: "You have errors in form. Please correct them.",
     };
     this.textRef = React.createRef();
     this.dateRef = React.createRef();
@@ -32,6 +34,7 @@ class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
     this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
+    this.formRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
   }
 
@@ -41,11 +44,13 @@ class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
 
     if (isTextWrong || isDateWrong) {
       this.setState({
-        errorClass: "error-visible",
+        popUpClass: "error-visible",
+        popUpText: "You have errors in form. Please correct them.",
       });
     } else {
       this.setState({
-        errorClass: "error-hidden",
+        popUpClass: "confirm-visible",
+        popUpText: "You have successfully created a card",
       });
       const formData = [
         this.textRef.current?.state.text as string,
@@ -56,23 +61,35 @@ class SubmitForm extends React.Component<ISubmit, { errorClass: string }> {
         this.uploadRef.current?.state.pic as string,
       ];
       this.props.isFormCorrect(formData);
+
+      this.textRef.current?.setState({
+        text: this.textRef.current.textInput.current?.defaultValue,
+      });
+      this.dateRef.current?.setState({
+        date: this.dateRef.current.dateInput.current?.defaultValue,
+      });
+      this.selectRef.current?.setState({
+        rating: "1",
+      });
+
+      this.formRef.current?.reset();
     }
   }
 
   render() {
     return (
-      <div className="submit-wrapper">
+      <form ref={this.formRef} className="submit-wrapper">
         <TextInput ref={this.textRef}></TextInput>
         <DateInput ref={this.dateRef}></DateInput>
         <SelectInput ref={this.selectRef}></SelectInput>
         <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
         <RadioInput ref={this.radioRef}></RadioInput>
         <UploadInput ref={this.uploadRef}></UploadInput>
-        <p className={this.state.errorClass}>You have errors in form. Please correct them.</p>
+        <p className={this.state.popUpClass}>{this.state.popUpText}</p>
         <button className="submit-button" onClick={this.handleErrors}>
           Submit
         </button>
-      </div>
+      </form>
     );
   }
 }

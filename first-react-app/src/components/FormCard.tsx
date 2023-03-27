@@ -16,7 +16,7 @@ function FormCard(props: {
         <p className="song-artist">Who created: {songAuthor}</p>
         <img
           className="song-image"
-          src={songImage}
+          src={songImage ? songImage : "src/assets/note.png"}
           alt="img probably won't load because it's local"
         />
         <p className="song-genre">Rating: {songRating}</p>

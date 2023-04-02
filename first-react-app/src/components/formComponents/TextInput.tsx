@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function TextInput(props: { onTextInput: (arg0: { text: string; hasError: boolean }) => void }) {
   const [errorClass, setErrorClass] = useState("error-hidden");
@@ -12,6 +12,7 @@ function TextInput(props: { onTextInput: (arg0: { text: string; hasError: boolea
     if (textInput.current!.value.length < 4) {
       setErrorClass("error-visible");
       setHasError(true);
+      setText(textInput.current!.value);
     } else {
       setErrorClass("error-hidden");
       setHasError(false);
@@ -22,6 +23,15 @@ function TextInput(props: { onTextInput: (arg0: { text: string; hasError: boolea
       hasError: hasError,
     });
   }
+
+  useEffect(() => {
+    console.log(text);
+    props.onTextInput({
+      text: text,
+      hasError: hasError,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasError, text]);
 
   return (
     <div className="submit-text-wrapper">

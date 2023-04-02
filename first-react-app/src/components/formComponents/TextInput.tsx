@@ -1,52 +1,41 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-class TextInput extends React.Component<
-  object,
-  { errorClass: string; errorText: string; hasError: boolean; text: string | undefined }
-> {
-  textInput: React.RefObject<HTMLInputElement>;
-  constructor(props: object) {
-    super(props);
-    this.textInput = React.createRef();
-    this.state = {
-      errorClass: "error-hidden",
-      errorText: "The name of the song must be at least 4 characters long",
-      hasError: false,
-      text: "Best Song",
-    };
-    this.handleError = this.handleError.bind(this);
-  }
+function TextInput(props: { onTextInput: (arg0: { text: string; hasError: boolean }) => void }) {
+  const [errorClass, setErrorClass] = useState("error-hidden");
+  const [hasError, setHasError] = useState(false);
+  const [text, setText] = useState("Best Song");
+  const errorText = "The name of the song must be at least 4 characters long";
 
-  handleError() {
-    if (this.textInput.current!.value.length < 4) {
-      this.setState({
-        errorClass: "error-visible",
-        hasError: true,
-      });
+  const textInput = useRef<HTMLInputElement>(null);
+
+  function handleError() {
+    if (textInput.current!.value.length < 4) {
+      setErrorClass("error-visible");
+      setHasError(true);
     } else {
-      this.setState({
-        errorClass: "error-hidden",
-        hasError: false,
-        text: this.textInput.current?.value,
-      });
+      setErrorClass("error-hidden");
+      setHasError(false);
+      setText(textInput.current!.value);
     }
+    props.onTextInput({
+      text: text,
+      hasError: hasError,
+    });
   }
 
-  render() {
-    return (
-      <div className="submit-text-wrapper">
-        <p>Type in a name for the song</p>
-        <p className={this.state.errorClass}>{this.state.errorText}</p>
-        <input
-          type="text"
-          ref={this.textInput}
-          className="submit-text"
-          defaultValue="Best Song"
-          onBlur={this.handleError}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="submit-text-wrapper">
+      <p>Type in a name for the song</p>
+      <p className={errorClass}>{errorText}</p>
+      <input
+        type="text"
+        ref={textInput}
+        className="submit-text"
+        defaultValue="Best Song"
+        onKeyUp={handleError}
+      />
+    </div>
+  );
 }
 
 export default TextInput;

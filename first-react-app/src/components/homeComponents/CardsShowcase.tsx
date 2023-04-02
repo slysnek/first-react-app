@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { songs } from "../../data/songsList";
 import Card from "./Card";
 
-function Cards() {
+function Cards(props: { searchValue: string }) {
   const cards: JSX.Element[] = [];
-  for (let i = 0; i < songs.length; i++) {
+
+  const filteredSongs = songs.filter(
+    (song) =>
+      song.name.toLowerCase().includes(props.searchValue) ||
+      song.album.toLowerCase().includes(props.searchValue) ||
+      song.artist.toLowerCase().includes(props.searchValue) ||
+      song.genre.toLowerCase().includes(props.searchValue)
+  );
+
+  for (const songs of filteredSongs) {
     cards.push(
       <Card
-        key={songs[i].id}
-        songName={songs[i].name}
-        songArtist={songs[i].artist}
-        songImage={songs[i].image}
-        songGenre={songs[i].genre}
-        songAlbum={songs[i].album}
+        key={songs.id}
+        songName={songs.name}
+        songArtist={songs.artist}
+        songImage={songs.image}
+        songGenre={songs.genre}
+        songAlbum={songs.album}
       ></Card>
     );
   }
+
   return <div className="cards-wrapper">{cards}</div>;
 }
 

@@ -1,10 +1,19 @@
 import SearchBar from "../components/homeComponents/SearchBar";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Cards from "../components/homeComponents/CardsShowcase";
 import CurrentPage from "../components/homeComponents/CurrentPage";
 
 function Home() {
+  const [searchValue, setSearchValue] = useState(() => {
+    const searchVal = localStorage.getItem("searchValue");
+    if (typeof searchVal === "string") return searchVal;
+    else return "";
+  });
+  function handleSearch(currentSearchValue: string) {
+    setSearchValue(currentSearchValue);
+  }
+
   return (
     <>
       <CurrentPage currentPage={"Home"}></CurrentPage>
@@ -18,9 +27,9 @@ function Home() {
         <Link className="link" to="forms">
           Forms
         </Link>
-        <SearchBar></SearchBar>
+        <SearchBar sendSearchValueToHome={handleSearch}></SearchBar>
       </header>
-      <Cards></Cards>
+      <Cards searchValue={searchValue}></Cards>
     </>
   );
 }

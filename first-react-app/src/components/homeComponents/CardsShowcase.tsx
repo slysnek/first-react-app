@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { songs } from "../../data/songsList";
 import Card from "./Card";
 

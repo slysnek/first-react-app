@@ -1,35 +1,31 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
-class SearchBar extends React.Component<object, { searchValue: string }> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      searchValue: localStorage.getItem("searchValue") as string,
-    };
+function SearchBar() {
+  const searchWindow = useRef<HTMLInputElement>(null);
+  const [searchValue, setSearchValue] = useState(() => {
+    const savedSearchVal = localStorage.getItem("searchValue") as string;
+    return savedSearchVal;
+  });
+
+  function handleInput() {
+    const searchVal = searchWindow.current!.value as string;
+    localStorage.setItem("searchValue", searchVal);
+    setSearchValue(searchWindow.current!.value);
   }
 
-  handleInput = (e: { currentTarget: { value: string } }) => {
-    const newSearchValue = e.currentTarget.value;
-    this.setState({ searchValue: newSearchValue });
-  };
-
-  componentWillUnmount() {
-    localStorage.setItem("searchValue", this.state.searchValue);
-  }
-
-  render() {
-    return (
-      <div className="search-wrapper">
-        <input
-          value={this.state.searchValue}
-          placeholder="type something here"
-          className="search-input"
-          onInput={this.handleInput}
-        />
-        <button className="search-button">search</button>
-      </div>
-    );
-  }
+  return (
+    <div className="search-wrapper">
+      <input
+        ref={searchWindow}
+        type="search"
+        value={searchValue}
+        placeholder="type something here"
+        className="search-input"
+        onInput={handleInput}
+      />
+      <button className="search-button">search</button>
+    </div>
+  );
 }
 
 export default SearchBar;

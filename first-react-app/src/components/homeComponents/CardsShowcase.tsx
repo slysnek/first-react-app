@@ -1,5 +1,5 @@
 import React from "react";
-import { songs } from "../songsList";
+import { songs } from "../../data/songsList";
 import Card from "./Card";
 
 function Cards() {

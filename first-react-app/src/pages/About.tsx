@@ -1,4 +1,4 @@
-import CurrentPage from "../components/CurrentPage";
+import CurrentPage from "../components/homeComponents/CurrentPage";
 import React from "react";
 import { Link } from "react-router-dom";
 

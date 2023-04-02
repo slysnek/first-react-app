@@ -1,8 +1,8 @@
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/homeComponents/SearchBar";
 import React from "react";
 import { Link } from "react-router-dom";
-import Cards from "../components/CardsShowcase";
-import CurrentPage from "../components/CurrentPage";
+import Cards from "../components/homeComponents/CardsShowcase";
+import CurrentPage from "../components/homeComponents/CurrentPage";
 
 function Home() {
   return (

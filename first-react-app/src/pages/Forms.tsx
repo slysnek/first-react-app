@@ -1,8 +1,8 @@
-import CurrentPage from "../components/CurrentPage";
+import CurrentPage from "../components/homeComponents/CurrentPage";
 import React from "react";
 import { Link } from "react-router-dom";
-import SubmitForm from "../components/SubmitForm";
-import FormCard from "../components/FormCard";
+import SubmitForm from "../components/formComponents/SubmitForm";
+import FormCard from "../components/formComponents/FormCard";
 
 class Forms extends React.Component<object, { formCards: JSX.Element[]; key: number }> {
   constructor(props: object) {

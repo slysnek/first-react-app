@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
   const searchWindow = useRef<HTMLInputElement>(null);
@@ -9,10 +9,16 @@ function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
 
   function handleInput() {
     const currentSearch = searchWindow.current!.value as string;
-    localStorage.setItem("searchValue", currentSearch);
     setSearchValue(searchWindow.current!.value);
     props.sendSearchValueToHome(currentSearch.toLowerCase());
   }
+
+  useEffect(() => {
+    localStorage.setItem("searchValue", searchValue);
+    return () => {
+      localStorage.getItem("searchValue");
+    };
+  }, [searchValue]);
 
   return (
     <div className="search-wrapper">

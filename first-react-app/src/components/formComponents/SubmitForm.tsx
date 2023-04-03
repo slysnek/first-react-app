@@ -22,12 +22,14 @@ type InputDate = {
   date: string;
   hasError: boolean;
 };
+type InputSelect = {
+  rating: string;
+};
 
 class SubmitForm extends React.Component<
   ISubmit,
-  { popUpClass: string; popUpText: string; text: InputText; date: InputDate }
+  { popUpClass: string; popUpText: string; text: InputText; date: InputDate; select: InputSelect }
 > {
-  selectRef: React.RefObject<SelectInput>;
   checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
@@ -38,14 +40,15 @@ class SubmitForm extends React.Component<
       popUpText: "You have errors in form. Please correct them.",
       text: { text: "Best text", hasError: false },
       date: { date: "2023-01-01", hasError: false },
+      select: { rating: "1" },
     };
-    this.selectRef = React.createRef();
     this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
     this.handleText = this.handleText.bind(this);
     this.handleDate = this.handleDate.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   handleErrors() {
@@ -68,7 +71,7 @@ class SubmitForm extends React.Component<
       const formData = [
         this.state.text.text as string,
         this.state.date.date as string,
-        this.selectRef.current?.state.rating as string,
+        this.state.select.rating as string,
         checkBoxValuetoString.toString() as string,
         this.radioRef.current?.state.whoMade as string,
         this.uploadRef.current?.state.pic as string,
@@ -83,17 +86,19 @@ class SubmitForm extends React.Component<
   };
 
   handleDate = (data: InputDate) => {
-    {
-      this.setState({ date: data });
-    }
+    this.setState({ date: data });
+  };
+
+  handleSelect = (data: InputSelect) => {
+    this.setState({ select: data });
   };
 
   render() {
     return (
-      <form className="submit-wrapper">
+      <div className="submit-wrapper">
         <TextInput onTextInput={this.handleText}></TextInput>
         <DateInput onDateInput={this.handleDate}></DateInput>
-        <SelectInput ref={this.selectRef}></SelectInput>
+        <SelectInput onSelectInput={this.handleSelect}></SelectInput>
         <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
         <RadioInput ref={this.radioRef}></RadioInput>
         <UploadInput ref={this.uploadRef}></UploadInput>
@@ -101,7 +106,7 @@ class SubmitForm extends React.Component<
         <button className="submit-button" onClick={this.handleErrors}>
           Submit
         </button>
-      </form>
+      </div>
     );
   }
 }

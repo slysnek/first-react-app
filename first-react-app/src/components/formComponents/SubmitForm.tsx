@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-
-export interface IFormData {
-  (a: string[]): void;
-}
+import React, { useEffect, useState } from "react";
+import { FieldErrors, useForm } from "react-hook-form";
 
 function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
   const [popUpClass, setpopUpClass] = useState("error-hidden");
@@ -12,7 +8,9 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
+    formState: { isSubmitSuccessful },
   } = useForm({
     defaultValues: {
       songName: "Best Song In The World",
@@ -24,6 +22,40 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
     },
   });
 
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        songName: "Best Song In The World",
+        date: "2023-01-01",
+        select: "1",
+        checkbox: false,
+        radio: null,
+        upload: null,
+      });
+    }
+  }, [reset, isSubmitSuccessful]);
+
+  function handleErrors(
+    errors: FieldErrors<{
+      songName: string;
+      date: string;
+      select: string;
+      checkbox: boolean;
+      radio: null;
+      upload: null;
+    }>
+  ) {
+    console.log(errors);
+    const isTextWrong = errors.songName;
+    const isDateWrong = errors.date;
+    const isRadioWrong = errors.radio;
+
+    if (isTextWrong || isDateWrong || isRadioWrong) {
+      setpopUpClass("error-visible");
+      setpopUpText("You have to correct errors in form first only then you can submit.");
+    }
+  }
+
   function handleData(data: {
     songName: string;
     date: string;
@@ -32,33 +64,24 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
     radio: null;
     upload: null | FileList;
   }) {
-    const isTextWrong = errors.songName;
-    const isDateWrong = errors.date;
+    let image = "";
 
-    if (isTextWrong || isDateWrong) {
-      setpopUpClass("error-visible");
-      setpopUpText("You have errors in form. Please correct them.");
-    } else {
+    try {
+      image = URL.createObjectURL(data.upload![0]);
+    } catch (error) {
+      image = "";
+    } finally {
+      const formData = [
+        data.songName,
+        data.date,
+        data.select,
+        data.checkbox.toString(),
+        data.radio as unknown as string,
+        image,
+      ];
       setpopUpClass("confirm-visible");
       setpopUpText("You have successfully created a card.");
-
-      let image = "";
-
-      try {
-        image = URL.createObjectURL(data.upload![0]);
-      } catch (error) {
-        image = "";
-      } finally {
-        const formData = [
-          data.songName,
-          data.date,
-          data.select,
-          data.checkbox.toString(),
-          data.radio as unknown as string,
-          image,
-        ];
-        props.isFormCorrect(formData);
-      }
+      props.isFormCorrect(formData);
     }
   }
 
@@ -70,13 +93,15 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
       })}
       className="submit-wrapper"
     >
+      <p>Type in a name for the song</p>
       <input
         {...register("songName", {
           required: true,
           minLength: { value: 4, message: "Song name must be at least 4 symbols" },
         })}
       />
-      <p className="error-visible">{errors.songName?.message}</p>
+      <p className="error">{errors.songName?.message}</p>
+      <p>When was this song created?</p>
       <input
         type="date"
         {...register("date", {
@@ -88,7 +113,8 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
           },
         })}
       />
-      <p className="error-visible">{errors.date?.message}</p>
+      <p className="error">{errors.date?.message}</p>
+      <p>Rate the song from 1 to 10</p>
       <select
         {...register("select", {
           required: true,
@@ -109,6 +135,7 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
         Does this song has implicit content?
         <input id="checkbox" type="checkbox" {...register("checkbox")} />
       </label>
+      <p>Was the song made by you or by someone else?</p>
       <label htmlFor="radio-1">
         By me
         <input
@@ -127,10 +154,10 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
           {...register("radio", { required: "Need to choose one option" })}
         />
       </label>
-      <p className="error-visible">{errors.radio?.message}</p>
+      <p className="error">{errors.radio?.message}</p>
       <input type="file" accept=".png,.jpg,.gif" {...register("upload")} />
-      <p className={popUpClass}>{popUpText}</p>
-      <button type="submit" className="submit-button">
+      <p className={`error ${popUpClass}`}>{popUpText}</p>
+      <button type="submit" className="submit-button" onClick={() => handleErrors(errors)}>
         Submit
       </button>
     </form>

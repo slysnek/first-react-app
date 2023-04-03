@@ -111,11 +111,11 @@ a:hover {
   border-radius: 4px;
 }
 
-.submit-wrapper > div {
-  padding-bottom: 16px;
+.submit-wrapper > p:not(:first-child, .error) {
+  padding-top: 16px;
   min-width: 200px;
   width: 100%;
-  border-bottom: 1px solid #7fe9f5;
+  border-top: 1px solid #7fe9f5;
 }
 
 .submit-button{
@@ -134,6 +134,9 @@ a:hover {
 
 .error-visible{
   display: block;
+}
+
+.error{
   color: #f57f7f;
 }
 

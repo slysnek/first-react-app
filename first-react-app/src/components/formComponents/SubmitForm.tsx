@@ -25,12 +25,21 @@ type InputDate = {
 type InputSelect = {
   rating: string;
 };
+type InputCheckbox = {
+  checked: boolean;
+};
 
 class SubmitForm extends React.Component<
   ISubmit,
-  { popUpClass: string; popUpText: string; text: InputText; date: InputDate; select: InputSelect }
+  {
+    popUpClass: string;
+    popUpText: string;
+    text: InputText;
+    date: InputDate;
+    select: InputSelect;
+    checkbox: InputCheckbox;
+  }
 > {
-  checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
   constructor(props: ISubmit) {
@@ -41,8 +50,8 @@ class SubmitForm extends React.Component<
       text: { text: "Best text", hasError: false },
       date: { date: "2023-01-01", hasError: false },
       select: { rating: "1" },
+      checkbox: { checked: false },
     };
-    this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
@@ -66,7 +75,7 @@ class SubmitForm extends React.Component<
         popUpText: "You have successfully created a card",
       });
 
-      const checkBoxValuetoString = this.checkboxRef.current!.state.checked as boolean;
+      const checkBoxValuetoString = this.state.checkbox.checked;
 
       const formData = [
         this.state.text.text as string,
@@ -93,13 +102,17 @@ class SubmitForm extends React.Component<
     this.setState({ select: data });
   };
 
+  handleCheckbox = (data: InputCheckbox) => {
+    this.setState({ checkbox: data });
+  };
+
   render() {
     return (
       <div className="submit-wrapper">
         <TextInput onTextInput={this.handleText}></TextInput>
         <DateInput onDateInput={this.handleDate}></DateInput>
         <SelectInput onSelectInput={this.handleSelect}></SelectInput>
-        <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
+        <CheckboxInput onCheckboxInput={this.handleCheckbox}></CheckboxInput>
         <RadioInput ref={this.radioRef}></RadioInput>
         <UploadInput ref={this.uploadRef}></UploadInput>
         <p className={this.state.popUpClass}>{this.state.popUpText}</p>

@@ -1,38 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-class CheckboxInput extends React.Component<object, { checked: boolean | undefined }> {
-  checkboxInput: React.RefObject<HTMLInputElement>;
-  constructor(props: object) {
-    super(props);
-    this.checkboxInput = React.createRef();
-    this.state = {
-      checked: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
+function CheckboxInput(props: { onCheckboxInput: (arg0: { checked: boolean }) => void }) {
+  const [checked, setChecked] = useState(false);
+  const checkboxInput = useRef<HTMLInputElement>(null);
+
+  function handleChange() {
+    setChecked(checkboxInput.current!.checked);
   }
 
-  handleChange() {
-    this.setState({
-      checked: this.checkboxInput.current?.checked,
+  useEffect(() => {
+    props.onCheckboxInput({
+      checked: checked,
     });
-  }
-  render() {
-    return (
-      <div className="submit-checkbox-wrapper">
-        <label htmlFor="has-explicit-content">
-          Check the mark if the song has explicit content.
-        </label>
-        <input
-          ref={this.checkboxInput}
-          id="has-explicit-content"
-          type="checkbox"
-          className="submit-checkbox"
-          onChange={this.handleChange}
-          checked={this.state.checked}
-        />
-      </div>
-    );
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checked]);
+
+  return (
+    <div className="submit-checkbox-wrapper">
+      <label htmlFor="has-explicit-content">Check the mark if the song has explicit content.</label>
+      <input
+        ref={checkboxInput}
+        id="has-explicit-content"
+        type="checkbox"
+        className="submit-checkbox"
+        onChange={handleChange}
+      />
+    </div>
+  );
 }
 
 export default CheckboxInput;

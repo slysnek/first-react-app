@@ -14,8 +14,15 @@ interface ISubmit extends Object {
   isFormCorrect: IFormData;
 }
 
-class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpText: string }> {
-  textRef: React.RefObject<TextInput>;
+type InputText = {
+  text: string;
+  hasError: boolean;
+}
+
+class SubmitForm extends React.Component<
+  ISubmit,
+  { popUpClass: string; popUpText: string; text: InputText }
+> {
   dateRef: React.RefObject<DateInput>;
   selectRef: React.RefObject<SelectInput>;
   checkboxRef: React.RefObject<CheckboxInput>;
@@ -26,18 +33,19 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
     this.state = {
       popUpClass: "error-hidden",
       popUpText: "You have errors in form. Please correct them.",
+      text: { text: "Test text", hasError: false },
     };
-    this.textRef = React.createRef();
     this.dateRef = React.createRef();
     this.selectRef = React.createRef();
     this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
+    this.handleText = this.handleText.bind(this);
   }
 
   handleErrors() {
-    const isTextWrong = this.textRef.current?.state.hasError;
+    const isTextWrong = this.state.text.hasError;
     const isDateWrong = this.dateRef.current?.state.hasError;
 
     if (isTextWrong || isDateWrong) {
@@ -54,46 +62,26 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
       const checkBoxValuetoString = this.checkboxRef.current!.state.checked as boolean;
 
       const formData = [
-        this.textRef.current?.state.text as string,
+        this.state.text.text as string,
         this.dateRef.current?.state.date as string,
         this.selectRef.current?.state.rating as string,
         checkBoxValuetoString.toString() as string,
         this.radioRef.current?.state.whoMade as string,
         this.uploadRef.current?.state.pic as string,
       ];
+      console.log(formData);
       this.props.isFormCorrect(formData);
-
-      this.textRef.current?.setState({
-        text: "Best Song",
-      });
-      this.textRef.current!.textInput.current!.value = "Best Song";
-
-      this.dateRef.current?.setState({
-        date: "2023-01-01",
-      });
-      this.dateRef.current!.dateInput.current!.value = "2023-01-01";
-
-      this.selectRef.current?.setState({
-        rating: "1",
-      });
-      this.selectRef.current!.selectInput.current!.value = "1";
-
-      this.checkboxRef.current?.setState({
-        checked: false,
-      });
-      this.checkboxRef.current!.checkboxInput.current!.checked = false;
-
-      this.uploadRef.current?.setState({
-        pic: "",
-      });
-      this.uploadRef.current!.uploadInput.current!.value = "";
     }
   }
 
+  handleText = (data: InputText) => {
+    this.setState({ text: data });
+  };
+
   render() {
     return (
-      <div className="submit-wrapper">
-        <TextInput ref={this.textRef}></TextInput>
+      <form className="submit-wrapper">
+        <TextInput onTextInput={this.handleText}></TextInput>
         <DateInput ref={this.dateRef}></DateInput>
         <SelectInput ref={this.selectRef}></SelectInput>
         <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
@@ -103,7 +91,7 @@ class SubmitForm extends React.Component<ISubmit, { popUpClass: string; popUpTex
         <button className="submit-button" onClick={this.handleErrors}>
           Submit
         </button>
-      </div>
+      </form>
     );
   }
 }

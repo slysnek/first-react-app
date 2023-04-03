@@ -25,7 +25,6 @@ function TextInput(props: { onTextInput: (arg0: { text: string; hasError: boolea
   }
 
   useEffect(() => {
-    console.log(text);
     props.onTextInput({
       text: text,
       hasError: hasError,

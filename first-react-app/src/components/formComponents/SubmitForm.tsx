@@ -17,13 +17,16 @@ interface ISubmit extends Object {
 type InputText = {
   text: string;
   hasError: boolean;
-}
+};
+type InputDate = {
+  date: string;
+  hasError: boolean;
+};
 
 class SubmitForm extends React.Component<
   ISubmit,
-  { popUpClass: string; popUpText: string; text: InputText }
+  { popUpClass: string; popUpText: string; text: InputText; date: InputDate }
 > {
-  dateRef: React.RefObject<DateInput>;
   selectRef: React.RefObject<SelectInput>;
   checkboxRef: React.RefObject<CheckboxInput>;
   radioRef: React.RefObject<RadioInput>;
@@ -33,20 +36,21 @@ class SubmitForm extends React.Component<
     this.state = {
       popUpClass: "error-hidden",
       popUpText: "You have errors in form. Please correct them.",
-      text: { text: "Test text", hasError: false },
+      text: { text: "Best text", hasError: false },
+      date: { date: "2023-01-01", hasError: false },
     };
-    this.dateRef = React.createRef();
     this.selectRef = React.createRef();
     this.checkboxRef = React.createRef();
     this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
     this.handleText = this.handleText.bind(this);
+    this.handleDate = this.handleDate.bind(this);
   }
 
   handleErrors() {
     const isTextWrong = this.state.text.hasError;
-    const isDateWrong = this.dateRef.current?.state.hasError;
+    const isDateWrong = this.state.date.hasError;
 
     if (isTextWrong || isDateWrong) {
       this.setState({
@@ -63,7 +67,7 @@ class SubmitForm extends React.Component<
 
       const formData = [
         this.state.text.text as string,
-        this.dateRef.current?.state.date as string,
+        this.state.date.date as string,
         this.selectRef.current?.state.rating as string,
         checkBoxValuetoString.toString() as string,
         this.radioRef.current?.state.whoMade as string,
@@ -78,11 +82,17 @@ class SubmitForm extends React.Component<
     this.setState({ text: data });
   };
 
+  handleDate = (data: InputDate) => {
+    {
+      this.setState({ date: data });
+    }
+  };
+
   render() {
     return (
       <form className="submit-wrapper">
         <TextInput onTextInput={this.handleText}></TextInput>
-        <DateInput ref={this.dateRef}></DateInput>
+        <DateInput onDateInput={this.handleDate}></DateInput>
         <SelectInput ref={this.selectRef}></SelectInput>
         <CheckboxInput ref={this.checkboxRef}></CheckboxInput>
         <RadioInput ref={this.radioRef}></RadioInput>

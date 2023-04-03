@@ -31,6 +31,9 @@ type InputCheckbox = {
 type InputRadio = {
   whoMade: string;
 };
+type InputUpload = {
+  pic: string;
+};
 
 class SubmitForm extends React.Component<
   ISubmit,
@@ -42,9 +45,9 @@ class SubmitForm extends React.Component<
     select: InputSelect;
     checkbox: InputCheckbox;
     radio: InputRadio;
+    upload: InputUpload;
   }
 > {
-  uploadRef: React.RefObject<UploadInput>;
   constructor(props: ISubmit) {
     super(props);
     this.state = {
@@ -55,12 +58,14 @@ class SubmitForm extends React.Component<
       select: { rating: "1" },
       checkbox: { checked: false },
       radio: { whoMade: "By me" },
+      upload: { pic: "" },
     };
-    this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
     this.handleText = this.handleText.bind(this);
     this.handleDate = this.handleDate.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
   }
 
   handleErrors() {
@@ -86,7 +91,7 @@ class SubmitForm extends React.Component<
         this.state.select.rating as string,
         checkBoxValuetoString.toString() as string,
         this.state.radio.whoMade as string,
-        this.uploadRef.current?.state.pic as string,
+        this.state.upload.pic as string,
       ];
       console.log(formData);
       this.props.isFormCorrect(formData);
@@ -113,6 +118,10 @@ class SubmitForm extends React.Component<
     this.setState({ radio: data });
   };
 
+  handleUpload = (data: InputUpload) => {
+    this.setState({ upload: data });
+  };
+
   render() {
     return (
       <div className="submit-wrapper">
@@ -121,7 +130,7 @@ class SubmitForm extends React.Component<
         <SelectInput onSelectInput={this.handleSelect}></SelectInput>
         <CheckboxInput onCheckboxInput={this.handleCheckbox}></CheckboxInput>
         <RadioInput onRadioInput={this.handleRadio}></RadioInput>
-        <UploadInput ref={this.uploadRef}></UploadInput>
+        <UploadInput onUploadInput={this.handleUpload}></UploadInput>
         <p className={this.state.popUpClass}>{this.state.popUpText}</p>
         <button className="submit-button" onClick={this.handleErrors}>
           Submit

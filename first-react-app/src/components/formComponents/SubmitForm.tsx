@@ -28,6 +28,9 @@ type InputSelect = {
 type InputCheckbox = {
   checked: boolean;
 };
+type InputRadio = {
+  whoMade: string;
+};
 
 class SubmitForm extends React.Component<
   ISubmit,
@@ -38,9 +41,9 @@ class SubmitForm extends React.Component<
     date: InputDate;
     select: InputSelect;
     checkbox: InputCheckbox;
+    radio: InputRadio;
   }
 > {
-  radioRef: React.RefObject<RadioInput>;
   uploadRef: React.RefObject<UploadInput>;
   constructor(props: ISubmit) {
     super(props);
@@ -51,8 +54,8 @@ class SubmitForm extends React.Component<
       date: { date: "2023-01-01", hasError: false },
       select: { rating: "1" },
       checkbox: { checked: false },
+      radio: { whoMade: "By me" },
     };
-    this.radioRef = React.createRef();
     this.uploadRef = React.createRef();
     this.handleErrors = this.handleErrors.bind(this);
     this.handleText = this.handleText.bind(this);
@@ -82,7 +85,7 @@ class SubmitForm extends React.Component<
         this.state.date.date as string,
         this.state.select.rating as string,
         checkBoxValuetoString.toString() as string,
-        this.radioRef.current?.state.whoMade as string,
+        this.state.radio.whoMade as string,
         this.uploadRef.current?.state.pic as string,
       ];
       console.log(formData);
@@ -106,6 +109,10 @@ class SubmitForm extends React.Component<
     this.setState({ checkbox: data });
   };
 
+  handleRadio = (data: InputRadio) => {
+    this.setState({ radio: data });
+  };
+
   render() {
     return (
       <div className="submit-wrapper">
@@ -113,7 +120,7 @@ class SubmitForm extends React.Component<
         <DateInput onDateInput={this.handleDate}></DateInput>
         <SelectInput onSelectInput={this.handleSelect}></SelectInput>
         <CheckboxInput onCheckboxInput={this.handleCheckbox}></CheckboxInput>
-        <RadioInput ref={this.radioRef}></RadioInput>
+        <RadioInput onRadioInput={this.handleRadio}></RadioInput>
         <UploadInput ref={this.uploadRef}></UploadInput>
         <p className={this.state.popUpClass}>{this.state.popUpText}</p>
         <button className="submit-button" onClick={this.handleErrors}>

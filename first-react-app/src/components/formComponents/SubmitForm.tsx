@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CheckboxInput from "./CheckboxInput";
 import DateInput from "./DateInput";
 import RadioInput from "./RadioInput";
@@ -8,10 +8,6 @@ import UploadInput from "./UploadInput";
 
 export interface IFormData {
   (a: string[]): void;
-}
-
-interface ISubmit extends Object {
-  isFormCorrect: IFormData;
 }
 
 type InputText = {
@@ -35,109 +31,80 @@ type InputUpload = {
   pic: string;
 };
 
-class SubmitForm extends React.Component<
-  ISubmit,
-  {
-    popUpClass: string;
-    popUpText: string;
-    text: InputText;
-    date: InputDate;
-    select: InputSelect;
-    checkbox: InputCheckbox;
-    radio: InputRadio;
-    upload: InputUpload;
-  }
-> {
-  constructor(props: ISubmit) {
-    super(props);
-    this.state = {
-      popUpClass: "error-hidden",
-      popUpText: "You have errors in form. Please correct them.",
-      text: { text: "Best text", hasError: false },
-      date: { date: "2023-01-01", hasError: false },
-      select: { rating: "1" },
-      checkbox: { checked: false },
-      radio: { whoMade: "By me" },
-      upload: { pic: "" },
-    };
-    this.handleErrors = this.handleErrors.bind(this);
-    this.handleText = this.handleText.bind(this);
-    this.handleDate = this.handleDate.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleRadio = this.handleRadio.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
-  }
+function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
+  const [popUpClass, setpopUpClass] = useState("error-hidden");
+  const [popUpText, setpopUpText] = useState("You have errors in form. Please correct them.");
+  const [text, setText] = useState({ text: "Best text", hasError: false });
+  const [date, setDate] = useState({ date: "2023-01-01", hasError: false });
+  const [select, setSelect] = useState({ rating: "1" });
+  const [checkbox, setCheckbox] = useState({ checked: false });
+  const [radio, setRadio] = useState({ whoMade: "By me" });
+  const [upload, setUpload] = useState({ pic: "" });
 
-  handleErrors() {
-    const isTextWrong = this.state.text.hasError;
-    const isDateWrong = this.state.date.hasError;
+  function handleErrors() {
+    const isTextWrong = text.hasError;
+    const isDateWrong = date.hasError;
 
     if (isTextWrong || isDateWrong) {
-      this.setState({
-        popUpClass: "error-visible",
-        popUpText: "You have errors in form. Please correct them.",
-      });
+      setpopUpClass("error-visible");
+      setpopUpText("You have errors in form. Please correct them.");
     } else {
-      this.setState({
-        popUpClass: "confirm-visible",
-        popUpText: "You have successfully created a card",
-      });
+      setpopUpClass("confirm-visible");
+      setpopUpText("You have successfully created a card.");
 
-      const checkBoxValuetoString = this.state.checkbox.checked;
+      const checkBoxValuetoString = checkbox.checked;
 
       const formData = [
-        this.state.text.text as string,
-        this.state.date.date as string,
-        this.state.select.rating as string,
+        text.text as string,
+        date.date as string,
+        select.rating as string,
         checkBoxValuetoString.toString() as string,
-        this.state.radio.whoMade as string,
-        this.state.upload.pic as string,
+        radio.whoMade as string,
+        upload.pic as string,
       ];
       console.log(formData);
-      this.props.isFormCorrect(formData);
+      props.isFormCorrect(formData);
     }
   }
 
-  handleText = (data: InputText) => {
-    this.setState({ text: data });
-  };
-
-  handleDate = (data: InputDate) => {
-    this.setState({ date: data });
-  };
-
-  handleSelect = (data: InputSelect) => {
-    this.setState({ select: data });
-  };
-
-  handleCheckbox = (data: InputCheckbox) => {
-    this.setState({ checkbox: data });
-  };
-
-  handleRadio = (data: InputRadio) => {
-    this.setState({ radio: data });
-  };
-
-  handleUpload = (data: InputUpload) => {
-    this.setState({ upload: data });
-  };
-
-  render() {
-    return (
-      <div className="submit-wrapper">
-        <TextInput onTextInput={this.handleText}></TextInput>
-        <DateInput onDateInput={this.handleDate}></DateInput>
-        <SelectInput onSelectInput={this.handleSelect}></SelectInput>
-        <CheckboxInput onCheckboxInput={this.handleCheckbox}></CheckboxInput>
-        <RadioInput onRadioInput={this.handleRadio}></RadioInput>
-        <UploadInput onUploadInput={this.handleUpload}></UploadInput>
-        <p className={this.state.popUpClass}>{this.state.popUpText}</p>
-        <button className="submit-button" onClick={this.handleErrors}>
-          Submit
-        </button>
-      </div>
-    );
+  function handleText(data: InputText) {
+    setText(data);
   }
+
+  function handleDate(data: InputDate) {
+    setDate(data);
+  }
+
+  function handleSelect(data: InputSelect) {
+    setSelect(data);
+  }
+
+  function handleCheckbox(data: InputCheckbox) {
+    setCheckbox(data);
+  }
+
+  function handleRadio(data: InputRadio) {
+    setRadio(data);
+  }
+
+  function handleUpload(data: InputUpload) {
+    setUpload(data);
+  }
+
+  return (
+    <div className="submit-wrapper">
+      <TextInput onTextInput={handleText}></TextInput>
+      <DateInput onDateInput={handleDate}></DateInput>
+      <SelectInput onSelectInput={handleSelect}></SelectInput>
+      <CheckboxInput onCheckboxInput={handleCheckbox}></CheckboxInput>
+      <RadioInput onRadioInput={handleRadio}></RadioInput>
+      <UploadInput onUploadInput={handleUpload}></UploadInput>
+      <p className={popUpClass}>{popUpText}</p>
+      <button className="submit-button" onClick={handleErrors}>
+        Submit
+      </button>
+    </div>
+  );
 }
 
 export default SubmitForm;

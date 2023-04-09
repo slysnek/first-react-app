@@ -45,7 +45,6 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
       upload: null;
     }>
   ) {
-    console.log(errors);
     const isTextWrong = errors.songName;
     const isDateWrong = errors.date;
     const isRadioWrong = errors.radio;
@@ -88,7 +87,6 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
   return (
     <form
       onSubmit={handleSubmit((data) => {
-        console.log(data);
         handleData(data);
       })}
       className="submit-wrapper"

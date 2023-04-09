@@ -27,7 +27,6 @@ export const lastFM = {
     };
 
     const data = await this.getInfo(params);
-    console.log(data);
     const trasformedData = this.transformArtistInfo(data);
     return trasformedData;
   },
@@ -46,7 +45,6 @@ export const lastFM = {
     };
   }) {
     if (Object.keys(artistData).length === 0) return;
-    console.log(artistData);
     return artistData.results.artistmatches.artist;
   },
 

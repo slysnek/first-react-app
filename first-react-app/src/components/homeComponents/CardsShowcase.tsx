@@ -4,7 +4,7 @@ import Card from "./Card";
 
 function Cards(props: { searchValue: string }) {
   const [cards, setCards] = useState<JSX.Element[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
 
   useEffect(() => {
     async function getArtistInfo() {
@@ -14,22 +14,27 @@ function Cards(props: { searchValue: string }) {
 
     async function addArtistDataToArray() {
       const artistInfo: JSX.Element[] = [];
-      if (props.searchValue) setLoading(true);
+      if (props.searchValue) setLoading(1);
       const data = await getArtistInfo();
-      if (data === undefined || data!.length === 0) {
+      if (data === undefined) {
         setCards(null);
-        setLoading(false);
+        setLoading(0);
+        return;
+      }
+      if (data.length === 0) {
+        setCards(null);
+        setLoading(2);
         return;
       }
       let count = 1;
       for (const artists of data) {
         artistInfo.push(
-          <Card key={count} songArtist={artists.name} songImage={artists.image[1].text}></Card>
+          <Card key={count} songArtist={artists.name} songImage={artists.image[3]["#text"]}></Card>
         );
         count++;
       }
       setCards(artistInfo);
-      setLoading(false);
+      setLoading(0);
     }
 
     addArtistDataToArray();
@@ -38,9 +43,10 @@ function Cards(props: { searchValue: string }) {
 
   return (
     <>
-      {loading ? <h1>LOADING</h1> : null}
+      {loading === 1 ? <h1>LOADING</h1> : null}
+      {loading === 2 ? <h1>No artists were found. Please try again.</h1> : null}
       <div className="cards-wrapper">
-        {cards ? cards : <h3>Nothing to display. Search artists to display them.</h3>}
+        {cards ? cards : <h3>Search artists to display them.</h3>}
       </div>
     </>
   );

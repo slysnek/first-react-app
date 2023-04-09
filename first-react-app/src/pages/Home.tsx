@@ -5,11 +5,8 @@ import Cards from "../components/homeComponents/CardsShowcase";
 import CurrentPage from "../components/homeComponents/CurrentPage";
 
 function Home() {
-  const [searchValue, setSearchValue] = useState(() => {
-    const searchVal = localStorage.getItem("searchValue");
-    if (typeof searchVal === "string") return searchVal;
-    else return "";
-  });
+  const [searchValue, setSearchValue] = useState("");
+
   function handleSearch(currentSearchValue: string) {
     setSearchValue(currentSearchValue);
   }

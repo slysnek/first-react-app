@@ -3,7 +3,7 @@ export const lastFM = {
   _apiKey: "d15ae01ae3b43dd6f2f28360c896b596",
   _apiFormat: "json",
 
-  async getInfo(params: any) {
+  async getInfo(params: { artist: string; method: string; limit: number }) {
     const qs = this._convertToQueryString({
       ...params,
       api_key: this._apiKey,
@@ -22,17 +22,41 @@ export const lastFM = {
   async getArtistInfo(artist: string) {
     const params = {
       artist,
-      method: "artist.getInfo",
-      autocorrect: 1,
-      lang: "en",
+      method: "artist.search",
+      limit: 10,
     };
 
     const data = await this.getInfo(params);
-
-    return data;
+    const trasformedData = this.transformArtistInfo(data);
+    return trasformedData;
   },
 
-  _convertToQueryString(params: any) {
+  transformArtistInfo(artistData: {
+    results: {
+      artistmatches: {
+        artist: {
+          name: string;
+          image: {
+            size: string;
+            text: string;
+          }[];
+        }[];
+      };
+    };
+  }) {
+    if (Object.keys(artistData).length === 0) return;
+    console.log(artistData);
+    return artistData.results.artistmatches.artist;
+  },
+
+  _convertToQueryString(params: {
+    [x: string]: string | number | boolean;
+    api_key: string;
+    format: string;
+    artist: string;
+    method: string;
+    limit: number;
+  }) {
     return Object.keys(params)
       .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
       .join("&");

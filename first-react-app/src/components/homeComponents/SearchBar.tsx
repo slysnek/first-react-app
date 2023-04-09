@@ -9,7 +9,11 @@ function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
 
   function handleInput() {
     const currentSearch = searchWindow.current!.value as string;
-    setSearchValue(searchWindow.current!.value);
+    setSearchValue(currentSearch);
+  }
+
+  function handleSubmit() {
+    const currentSearch = searchWindow.current!.value as string;
     props.sendSearchValueToHome(currentSearch.toLowerCase());
   }
 
@@ -21,7 +25,7 @@ function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
   }, [searchValue]);
 
   return (
-    <div className="search-wrapper">
+    <form onSubmit={handleSubmit} className="search-wrapper">
       <input
         ref={searchWindow}
         type="search"
@@ -30,8 +34,10 @@ function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
         className="search-input"
         onInput={handleInput}
       />
-      <button className="search-button">search</button>
-    </div>
+      <button type="submit" className="search-button">
+        search
+      </button>
+    </form>
   );
 }
 

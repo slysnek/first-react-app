@@ -1,21 +1,12 @@
 import React from "react";
 
-function Card(props: {
-  songName: string;
-  songArtist: string;
-  songImage: string;
-  songGenre: string;
-  songAlbum: string;
-}) {
-  const { songName, songArtist, songImage, songGenre, songAlbum } = props;
+function Card(props: { songArtist: string; songImage: string }) {
+  const { songArtist, songImage } = props;
   return (
     <>
       <div className="card">
-        <h4 className="song-name">{songName}</h4>
-        <p className="song-artist">{songArtist}</p>
+        <h4 className="song-artist">{songArtist}</h4>
         <img className="song-image" src={songImage} alt="album picture" />
-        <p className="song-genre">{songGenre}</p>
-        <p className="song-album">{songAlbum}</p>
       </div>
     </>
   );

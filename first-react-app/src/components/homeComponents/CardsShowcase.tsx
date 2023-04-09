@@ -1,6 +1,7 @@
 import { lastFM } from "../../api/lastFMAPI";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
+import note from "../../assets/note.png";
 
 function Cards(props: { searchValue: string }) {
   const [cards, setCards] = useState<JSX.Element[] | null>(null);
@@ -10,6 +11,26 @@ function Cards(props: { searchValue: string }) {
     async function getArtistInfo() {
       const artistData = await lastFM.getArtistInfo(props.searchValue);
       return artistData;
+    }
+    async function getArtistPictures(
+      data: { name: string; image: { size: string; "#text": string }[] }[]
+    ) {
+      for (const artists of data) {
+        const trimmedName = artists.name.replace(/\s+/g, "");
+        const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=${trimmedName}&extras=url_l&format=json&nojsoncallback=1`;
+        const result = await fetch(url);
+        const artistPicture = await result.json();
+        console.log(artistPicture);
+        console.log(artistPicture.photos.photo);
+        if (artistPicture.photos.photo.length === 0) {
+          artists.image[3]["#text"] = note;
+        } else {
+          artists.image[3]["#text"] =
+            artistPicture.photos.photo[
+              Math.floor(Math.random() * artistPicture.photos.photo.length)
+            ].url_l;
+        }
+      }
     }
 
     async function addArtistDataToArray() {
@@ -26,6 +47,7 @@ function Cards(props: { searchValue: string }) {
         setLoading(2);
         return;
       }
+      const dataWithImages = await getArtistPictures(data);
       let count = 1;
       for (const artists of data) {
         artistInfo.push(

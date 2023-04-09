@@ -27,6 +27,7 @@ export const lastFM = {
     };
 
     const data = await this.getInfo(params);
+    console.log(data);
     const trasformedData = this.transformArtistInfo(data);
     return trasformedData;
   },

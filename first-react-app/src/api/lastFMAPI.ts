@@ -1,3 +1,5 @@
+import fetch from "cross-fetch";
+
 export const lastFM = {
   _apiLink: "http://ws.audioscrobbler.com/2.0/",
   _apiKey: "d15ae01ae3b43dd6f2f28360c896b596",

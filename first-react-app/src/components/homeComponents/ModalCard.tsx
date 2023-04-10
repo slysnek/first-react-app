@@ -24,24 +24,27 @@ function ModalCard(props: {
     <>
       <div onClick={handleOverlayClick} className="modal-overlay">
         <div onClick={handleModalClick} className="modal-card">
-          <h3 className="close" onClick={handleCloseClick}>
+          <h2 className="close" onClick={handleCloseClick}>
             X
-          </h3>
-          <h4 className="artist-name">{name}</h4>
-          <p>First published: {bio.published}</p>
-          <p>Biography: {bio.summary.split("<")[0]}</p>
-          <ul>
-            <p>Tags:</p>
-            {tags.map(function (item, i) {
-              return <li key={i}>{item.name}</li>;
-            })}
-          </ul>
-          <ul>
-            <p>Similar artists:</p>
-            {similar.map(function (item, i) {
-              return <li key={i}>{item.name}</li>;
-            })}
-          </ul>
+          </h2>
+          <h2 className="artist-name">{name}</h2>
+          <p>First published: </p> <span>{bio.published}</span>
+          <div className="modal-tags-artists">
+            <ul>
+              <p className="modal-header">Tags:</p>
+              {tags.map(function (item, i) {
+                return <li key={i}>{item.name}</li>;
+              })}
+            </ul>
+            <ul>
+              <p className="modal-header">Similar artists:</p>
+              {similar.map(function (item, i) {
+                return <li key={i}>{item.name}</li>;
+              })}
+            </ul>
+          </div>
+          <p className="modal-header">Biography:</p>
+          <p>{bio.summary.split("<")[0]}</p>
         </div>
       </div>
     </>

@@ -33,8 +33,6 @@ export const lastFM = {
       format: this._apiFormat,
     });
 
-    console.log(qs);
-
     const res = await fetch(`${this._apiLink}?${qs}`);
 
     if (!res.ok) {
@@ -48,11 +46,10 @@ export const lastFM = {
     const params: getArtistParams = {
       artist,
       method: "artist.search",
-      limit: 2,
+      limit: 6,
     };
 
     const data = await this.getInfo(params);
-    console.log(data);
     const trasformedData = this.transformArtistInfo(data);
     return trasformedData;
   },
@@ -65,7 +62,6 @@ export const lastFM = {
 
     const data = await this.getInfo(params);
     const trasformedData = this.transformArtistDataInfo(data);
-    console.log(trasformedData);
     return trasformedData;
   },
 

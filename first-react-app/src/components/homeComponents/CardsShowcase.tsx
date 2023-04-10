@@ -24,8 +24,6 @@ function Cards(props: { searchValue: string }) {
         const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=${trimmedName}&extras=url_l&format=json&nojsoncallback=1`;
         const result = await fetch(url);
         const artistPicture = await result.json();
-        console.log(artistPicture);
-        console.log(artistPicture.photos.photo, artists.name);
         if (artistPicture.photos.photo.length === 0) {
           artists.image[3]["#text"] = note;
         } else {
@@ -38,7 +36,6 @@ function Cards(props: { searchValue: string }) {
               Math.floor(Math.random() * artistPicture.photos.photo.length)
             ].url_l;
           }
-          console.log(artists.image[3]["#text"]);
         }
       }
       return data;
@@ -59,7 +56,6 @@ function Cards(props: { searchValue: string }) {
         return;
       }
       const dataWithImages = await getArtistPictures(data);
-      console.log(dataWithImages);
       let count = 1;
       for (const artists of dataWithImages) {
         artistInfo.push(
@@ -88,8 +84,6 @@ function Cards(props: { searchValue: string }) {
       }
       async function addDataToModalWindow() {
         const data = await getArtistInfo(currentArtist);
-        console.log(data);
-
         const modalCard = (
           <ModalCard
             handleModalClose={closeModalWindow}
@@ -111,7 +105,6 @@ function Cards(props: { searchValue: string }) {
   }, [isModalActive, currentArtist]);
 
   function displayModalWindow(artist: string) {
-    console.log(artist);
     setIsModalActive(true);
     setCurrentArtist(artist);
   }

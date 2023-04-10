@@ -4,7 +4,7 @@ import { WrappedApp } from "./app/App";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  //<React.StrictMode>
+  <React.StrictMode>
     <WrappedApp />
-  //</React.StrictMode>
+  </React.StrictMode>
 );

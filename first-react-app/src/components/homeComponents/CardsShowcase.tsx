@@ -21,7 +21,7 @@ function Cards(props: { searchValue: string }) {
         const result = await fetch(url);
         const artistPicture = await result.json();
         console.log(artistPicture);
-        console.log(artistPicture.photos.photo);
+        console.log(artistPicture.photos.photo, artists.name);
         if (artistPicture.photos.photo.length === 0) {
           artists.image[3]["#text"] = note;
         } else {
@@ -29,8 +29,15 @@ function Cards(props: { searchValue: string }) {
             artistPicture.photos.photo[
               Math.floor(Math.random() * artistPicture.photos.photo.length)
             ].url_l;
+          while (artists.image[3]["#text"] === undefined) {
+            artistPicture.photos.photo[
+              Math.floor(Math.random() * artistPicture.photos.photo.length)
+            ].url_l;
+          }
+          console.log(artists.image[3]["#text"]);
         }
       }
+      return data;
     }
 
     async function addArtistDataToArray() {
@@ -48,8 +55,9 @@ function Cards(props: { searchValue: string }) {
         return;
       }
       const dataWithImages = await getArtistPictures(data);
+      console.log(dataWithImages);
       let count = 1;
-      for (const artists of data) {
+      for (const artists of dataWithImages) {
         artistInfo.push(
           <Card key={count} songArtist={artists.name} songImage={artists.image[3]["#text"]}></Card>
         );

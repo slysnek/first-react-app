@@ -6,7 +6,11 @@ function Card(props: { songArtist: string; songImage: string }) {
     <>
       <div className="card">
         <h4 className="song-artist">{songArtist}</h4>
-        <img className="song-image" src={songImage} alt="album picture" />
+        <img
+          className="song-image"
+          src={songImage}
+          alt="The picture isn't accessible anymore. Try to refresh the page."
+        />
       </div>
     </>
   );

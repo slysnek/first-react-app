@@ -12,7 +12,8 @@ function SearchBar(props: { sendSearchValueToHome: (arg0: string) => void }) {
     setSearchValue(currentSearch);
   }
 
-  function handleSubmit() {
+  function handleSubmit(e: { preventDefault: () => void }) {
+    e.preventDefault();
     const currentSearch = searchWindow.current!.value as string;
     props.sendSearchValueToHome(currentSearch.toLowerCase());
   }

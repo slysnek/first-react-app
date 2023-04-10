@@ -1,10 +1,19 @@
 import React from "react";
 
-function Card(props: { songArtist: string; songImage: string }) {
+function Card(props: {
+  handleCardClick: (arg0: string) => void;
+  songArtist: string;
+  songImage: string;
+}) {
   const { songArtist, songImage } = props;
+
+  function handleClick() {
+    props.handleCardClick(songArtist);
+  }
+
   return (
     <>
-      <div className="card">
+      <div onClick={handleClick} className="card">
         <h4 className="song-artist">{songArtist}</h4>
         <img
           className="song-image"

@@ -4,9 +4,10 @@
   margin: 0;
 }
 
-:root {
+#root {
   font-family: 'Oswald', sans-serif;
   font-weight: 400;
+  min-height: 100vh;
   color: rgba(255, 255, 255, 0.87);
   background: url(./assets/webb-dark.png);
 }
@@ -168,4 +169,37 @@ a:hover {
 
 .form-card:hover{
   background-color: rgba(255, 255, 255, 0.5);;
+}
+
+.modal-overlay{
+  z-index: 2;
+  position: fixed;
+  min-width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+}
+
+.modal-card{
+  position: relative;
+  margin: 0 auto;
+  padding: 6px;
+  top: 20%;
+  width: 80%;
+  height: 60%;
+  border: 1px solid #2fc3d4;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 6px;
+}
+
+.close{
+  position: relative;
+  top: 6px;
+  right: 6px;
+  cursor: pointer;
+}
+
+.close:hover{
+  color: #7fe9f5;
 }

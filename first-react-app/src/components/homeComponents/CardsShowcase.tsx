@@ -2,10 +2,12 @@ import { lastFM } from "../../api/lastFMAPI";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import note from "../../assets/note.png";
+import ModalCard from "./ModalCard";
 
 function Cards(props: { searchValue: string }) {
   const [cards, setCards] = useState<JSX.Element[] | null>(null);
   const [loading, setLoading] = useState(0);
+  const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
     async function getArtistInfo() {
@@ -59,7 +61,12 @@ function Cards(props: { searchValue: string }) {
       let count = 1;
       for (const artists of dataWithImages) {
         artistInfo.push(
-          <Card key={count} songArtist={artists.name} songImage={artists.image[3]["#text"]}></Card>
+          <Card
+            handleCardClick={displayModalWindow}
+            key={count}
+            songArtist={artists.name}
+            songImage={artists.image[3]["#text"]}
+          ></Card>
         );
         count++;
       }
@@ -71,8 +78,18 @@ function Cards(props: { searchValue: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.searchValue]);
 
+  function displayModalWindow(artist: string) {
+    console.log(artist);
+    setIsModalActive(true);
+  }
+
+  function closeModalWindow() {
+    setIsModalActive(false);
+  }
+
   return (
     <>
+      {isModalActive ? <ModalCard handleModalClose={closeModalWindow} songArtist={"Test"} /> : null}
       {loading === 1 ? <h1>Loading data...</h1> : null}
       {loading === 2 ? <h1>No artists were found. Please try again.</h1> : null}
       <div className="cards-wrapper">

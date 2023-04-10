@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 interface getArtistParams {
   artist: string;
   method: string;
-  limit: 10;
+  limit: number;
 }
 
 interface getArtistParamsInfo {
@@ -48,7 +48,7 @@ export const lastFM = {
     const params: getArtistParams = {
       artist,
       method: "artist.search",
-      limit: 10,
+      limit: 2,
     };
 
     const data = await this.getInfo(params);
@@ -64,9 +64,9 @@ export const lastFM = {
     };
 
     const data = await this.getInfo(params);
-    console.log(data);
-    /* const trasformedData = this.transformArtistInfo(data);
-    return trasformedData; */
+    const trasformedData = this.transformArtistDataInfo(data);
+    console.log(trasformedData);
+    return trasformedData;
   },
 
   transformArtistInfo(artistData: {
@@ -84,6 +84,24 @@ export const lastFM = {
   }) {
     if (Object.keys(artistData).length === 0) return;
     return artistData.results.artistmatches.artist;
+  },
+
+  transformArtistDataInfo(artistData: {
+    artist: {
+      name: string;
+      similar: { artist: { name: string }[] };
+      tags: { tag: { name: string }[] };
+      bio: { published: string; summary: string };
+    };
+  }) {
+    if (Object.keys(artistData).length === 0) return;
+    return {
+      name: artistData.artist.name,
+      similar: artistData.artist.similar.artist,
+      tags: artistData.artist.tags.tag,
+      published: artistData.artist.bio.published,
+      summary: artistData.artist.bio.summary,
+    };
   },
 
   _convertToQueryString(params: queryParams) {

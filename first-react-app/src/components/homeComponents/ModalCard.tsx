@@ -1,7 +1,13 @@
 import React from "react";
 
-function ModalCard(props: { handleModalClose: () => void; songArtist: string }) {
-  const { songArtist } = props;
+function ModalCard(props: {
+  handleModalClose: () => void;
+  name: string;
+  similar: { name: string }[];
+  tags: { name: string }[];
+  bio: { published: string; summary: string };
+}) {
+  const { name, similar, tags, bio } = props;
 
   function handleOverlayClick() {
     props.handleModalClose();
@@ -21,7 +27,21 @@ function ModalCard(props: { handleModalClose: () => void; songArtist: string }) 
           <h3 className="close" onClick={handleCloseClick}>
             X
           </h3>
-          <h4 className="song-artist">{songArtist}</h4>
+          <h4 className="artist-name">{name}</h4>
+          <p>First published: {bio.published}</p>
+          <p>Biography: {bio.summary.split("<")[0]}</p>
+          <ul>
+            <p>Tags:</p>
+            {tags.map(function (item, i) {
+              return <li key={i}>{item.name}</li>;
+            })}
+          </ul>
+          <ul>
+            <p>Similar artists:</p>
+            {similar.map(function (item, i) {
+              return <li key={i}>{item.name}</li>;
+            })}
+          </ul>
         </div>
       </div>
     </>

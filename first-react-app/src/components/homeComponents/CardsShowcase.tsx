@@ -11,7 +11,7 @@ function Cards(props: { searchValue: string }) {
 
   useEffect(() => {
     async function getArtistInfo() {
-      const artistData = await lastFM.getArtistInfo(props.searchValue);
+      const artistData = await lastFM.getArtist(props.searchValue);
       return artistData;
     }
     async function getArtistPictures(

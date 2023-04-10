@@ -29,7 +29,7 @@ function Cards(props: { searchValue: string }) {
             artistPicture.photos.photo[
               Math.floor(Math.random() * artistPicture.photos.photo.length)
             ].url_l;
-          while (artists.image[3]["#text"] === undefined) {
+          if (artists.image[3]["#text"] === undefined) {
             artistPicture.photos.photo[
               Math.floor(Math.random() * artistPicture.photos.photo.length)
             ].url_l;
@@ -73,7 +73,7 @@ function Cards(props: { searchValue: string }) {
 
   return (
     <>
-      {loading === 1 ? <h1>LOADING</h1> : null}
+      {loading === 1 ? <h1>Loading data...</h1> : null}
       {loading === 2 ? <h1>No artists were found. Please try again.</h1> : null}
       <div className="cards-wrapper">
         {cards ? cards : <h3>Search artists to display them.</h3>}

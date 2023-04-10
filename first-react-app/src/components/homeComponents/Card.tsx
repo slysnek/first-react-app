@@ -9,7 +9,7 @@ function Card(props: { songArtist: string; songImage: string }) {
         <img
           className="song-image"
           src={songImage}
-          alt="The picture isn't accessible anymore. Try to refresh the page."
+          alt="The picture isn't accessible anymore on the API website."
         />
       </div>
     </>

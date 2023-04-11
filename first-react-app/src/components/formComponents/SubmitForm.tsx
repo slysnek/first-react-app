@@ -3,7 +3,9 @@ import { FieldErrors, useForm } from "react-hook-form";
 
 function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
   const [popUpClass, setpopUpClass] = useState("error-hidden");
-  const [popUpText, setpopUpText] = useState("You have errors in form. Please correct them.");
+  const [popUpText, setpopUpText] = useState(
+    "You have to correct errors in form first only then you can submit."
+  );
 
   const {
     register,
@@ -154,7 +156,7 @@ function SubmitForm(props: { isFormCorrect: (arg0: string[]) => void }) {
       </label>
       <p className="error">{errors.radio?.message}</p>
       <input type="file" accept=".png,.jpg,.gif" {...register("upload")} />
-      <p className={`error ${popUpClass}`}>{popUpText}</p>
+      <p className={`${popUpClass} error`}>{popUpText}</p>
       <button type="submit" className="submit-button" onClick={() => handleErrors(errors)}>
         Submit
       </button>

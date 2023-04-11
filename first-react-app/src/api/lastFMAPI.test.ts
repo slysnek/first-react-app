@@ -1,5 +1,4 @@
 import { describe } from "vitest";
-import { render, screen } from "@testing-library/react";
 import { lastFM } from "./lastFMAPI";
 
 describe("Testing api calls", () => {

@@ -16,7 +16,6 @@ export default defineConfig({
       reporter: ["text"],
       all: true,
       include: ["src"],
-      exclude: ["src/data"],
     },
   },
 });

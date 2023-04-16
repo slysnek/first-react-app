@@ -11,7 +11,7 @@ const initialState: SearchState = {
   isSearching: false,
 };
 
-export const counterSlice = createSlice({
+export const searchSlice = createSlice({
   name: "searchInSlice",
   initialState,
   reducers: {
@@ -25,7 +25,6 @@ export const counterSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { addingTextToSearch, submittingSearch } = counterSlice.actions;
+export const { addingTextToSearch, submittingSearch } = searchSlice.actions;
 
-export default counterSlice.reducer;
+export default searchSlice.reducer;

@@ -3,21 +3,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SubmitForm from "../components/formComponents/SubmitForm";
 import FormCard from "../components/formComponents/FormCard";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../data/reduxStore";
+import { addFormCard } from "../data/formSlice";
 
-class Forms extends React.Component<object, { formCards: JSX.Element[]; key: number }> {
-  constructor(props: object) {
-    super(props);
-    this.addNewCard = this.addNewCard.bind(this);
-    this.state = {
-      formCards: [],
-      key: 1,
-    };
-  }
+function Forms() {
+  const formCardsStore = useSelector((state: RootState) => state.formInStore.formCards);
+  const dispatch = useDispatch();
 
-  addNewCard(data: string[]) {
-    this.setState({
-      key: this.state.key + 1,
-    });
+  function addNewCard(data: string[]) {
     const newFormCard = (
       <FormCard
         songName={data[0]}
@@ -26,26 +20,22 @@ class Forms extends React.Component<object, { formCards: JSX.Element[]; key: num
         songExplicit={data[3] === "true" ? "Yes" : "No"}
         songAuthor={data[4]}
         songImage={data[5]}
-        key={this.state.key}
+        key={Date.now().toString().slice(6)}
       ></FormCard>
     );
-    this.setState({
-      formCards: this.state.formCards.concat(newFormCard),
-    });
+    dispatch(addFormCard(newFormCard));
   }
 
-  render() {
-    return (
-      <div className="forms-page">
-        <CurrentPage currentPage={"Forms"}></CurrentPage>
-        <Link className="link" to="/">
-          To home page
-        </Link>
-        <SubmitForm isFormCorrect={this.addNewCard}></SubmitForm>
-        <div className="form-cards">{this.state.formCards}</div>
-      </div>
-    );
-  }
+  return (
+    <div className="forms-page">
+      <CurrentPage currentPage={"Forms"}></CurrentPage>
+      <Link className="link" to="/">
+        To home page
+      </Link>
+      <SubmitForm isFormCorrect={addNewCard}></SubmitForm>
+      <div className="form-cards">{formCardsStore}</div>
+    </div>
+  );
 }
 
 export default Forms;

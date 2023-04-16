@@ -1,18 +1,14 @@
 import SearchBar from "../components/homeComponents/SearchBar";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Cards from "../components/homeComponents/CardsShowcase";
 import CurrentPage from "../components/homeComponents/CurrentPage";
+import { useSelector } from "react-redux";
+import { RootState } from "data/reduxStore";
 
 function Home() {
-  const [searchValue, setSearchValue] = useState(() => {
-    const savedSearchVal = localStorage.getItem("searchValue") as string;
-    return savedSearchVal;
-  });
-
-  function handleSearch(currentSearchValue: string) {
-    setSearchValue(currentSearchValue);
-  }
+  const searchValue = useSelector((state: RootState) => state.searchInStore.searchText);
+  const isSearching = useSelector((state: RootState) => state.searchInStore.isSearching);
 
   return (
     <>
@@ -27,9 +23,9 @@ function Home() {
         <Link className="link" to="forms">
           Forms
         </Link>
-        <SearchBar sendSearchValueToHome={handleSearch}></SearchBar>
+        <SearchBar></SearchBar>
       </header>
-      <Cards searchValue={searchValue}></Cards>
+      <Cards searchValue={isSearching ? searchValue : ""}></Cards>
     </>
   );
 }

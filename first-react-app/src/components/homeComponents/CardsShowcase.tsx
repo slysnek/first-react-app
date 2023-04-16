@@ -112,6 +112,7 @@ function Cards(props: { searchValue: string }) {
   function closeModalWindow() {
     setIsModalActive(false);
     setCurrentArtist("");
+    setCurrentCard(undefined);
   }
 
   return (

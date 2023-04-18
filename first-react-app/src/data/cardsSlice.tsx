@@ -13,8 +13,9 @@ export const cardSlice = createSlice({
   name: "cardsInSlice",
   initialState,
   reducers: {
-    addCard: (state, action: PayloadAction<JSX.Element>) => {
-      state.cards.push(action.payload);
+    addCard: (state, action: PayloadAction<JSX.Element[]>) => {
+      state.cards = [...action.payload];
+      console.log(state.cards, "state cards updated");
     },
   },
 });

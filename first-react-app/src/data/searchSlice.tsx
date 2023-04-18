@@ -19,12 +19,15 @@ export const searchSlice = createSlice({
       state.searchText = action.payload;
       state.isSearching = false;
     },
-    submittingSearch: (state) => {
+    searchActive: (state) => {
       state.isSearching = true;
+    },
+    searchNotActive: (state) => {
+      state.isSearching = false;
     },
   },
 });
 
-export const { addingTextToSearch, submittingSearch } = searchSlice.actions;
+export const { addingTextToSearch, searchActive, searchNotActive } = searchSlice.actions;
 
 export default searchSlice.reducer;

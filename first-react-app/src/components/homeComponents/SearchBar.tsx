@@ -1,17 +1,17 @@
-import { addingTextToSearch, submittingSearch } from "../../data/searchSlice";
+import { addingTextToSearch, searchActive } from "../../data/searchSlice";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "data/reduxStore";
+import { AppDispatch, RootState } from "data/reduxStore";
 
 function SearchBar() {
   const searchWindow = useRef<HTMLInputElement>(null);
 
   const searchValue = useSelector((state: RootState) => state.searchInStore.searchText);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  function handleSubmit(e: { preventDefault: () => void }) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
+    dispatch(searchActive());
     e.preventDefault();
-    dispatch(submittingSearch());
   }
 
   return (
@@ -22,10 +22,12 @@ function SearchBar() {
         value={searchValue}
         placeholder="type something here"
         className="search-input"
-        onInput={() => dispatch(addingTextToSearch(searchWindow.current!.value))}
+        onInput={() => {
+          dispatch(addingTextToSearch(searchWindow.current!.value));
+        }}
       />
       <button type="submit" className="search-button">
-        search
+        Search
       </button>
     </form>
   );

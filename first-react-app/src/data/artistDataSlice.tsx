@@ -1,7 +1,8 @@
-import { ArtistInfo, lastFM, NewArtistInfo } from "../api/lastFMAPI";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { lastFM, NewArtistInfo } from "../api/lastFMAPI";
+import { AsyncThunkAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import note from "../assets/note.png";
+import Card from "components/homeComponents/Card";
 
 async function getArtistPictures(artists: NewArtistInfo) {
   for (const artist of artists) {
@@ -29,33 +30,42 @@ export const getArtistByName = createAsyncThunk(
   "artists/getArtistByNameStatus",
   async (artistName: string) => {
     const response = await lastFM.getArtist(artistName);
+    console.log("gets artists in slice");
     if (response === null) return null;
     const artistsWithPictures = await getArtistPictures(response);
-    return artistsWithPictures as NewArtistInfo;
+    return artistsWithPictures;
   }
 );
 
+interface InitialState {
+  artists: NewArtistInfo | null;
+  status: string;
+}
+
+const initialState = {
+  artists: null,
+  status: "Search a song to display here",
+} as InitialState;
+
 const artistsSlice = createSlice({
   name: "artists",
-  initialState: {
-    artists: {},
-    status: "",
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getArtistByName.pending, (state, action) => {
-      state.status = "pending";
+    builder.addCase(getArtistByName.pending, (state) => {
+      state.status = "Loading data...";
     }),
       builder.addCase(getArtistByName.fulfilled, (state, action) => {
-        state.status = "fulfilled";
+        state.status = "";
         if (action.payload === null) {
-          state.artists = {};
+          console.log("payload is null");
           return;
         }
-        state.artists = action.payload as NewArtistInfo;
+        state.artists = { ...action.payload };
+        console.log(state.artists, "state artists updated");
       }),
-      builder.addCase(getArtistByName.rejected, (state, action) => {
-        state.status = "rejected";
+      builder.addCase(getArtistByName.rejected, (state) => {
+        state.status = "An error occured. Please try again.";
       });
   },
 });

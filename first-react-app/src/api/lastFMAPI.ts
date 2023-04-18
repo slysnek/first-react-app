@@ -1,5 +1,4 @@
 import fetch from "cross-fetch";
-import { json } from "react-router-dom";
 
 interface getArtistParams {
   artist: string;
@@ -105,9 +104,19 @@ export const lastFM = {
     };
   }) {
     const artists = JSON.parse(JSON.stringify([...artistData.results.artistmatches.artist]));
-    const newArtists: NewArtistInfo = artists.map((artist: any) => {
-      return Object.assign({}, artist, { image: "" });
-    });
+    const newArtists: NewArtistInfo = artists.map(
+      (
+        artist: {
+          name: string;
+          image: {
+            size: string;
+            "#text": string;
+          }[];
+        }[]
+      ) => {
+        return Object.assign({}, artist, { image: "" });
+      }
+    );
     return newArtists;
   },
 

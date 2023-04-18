@@ -3,13 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Cards from "../components/homeComponents/CardsShowcase";
 import CurrentPage from "../components/homeComponents/CurrentPage";
-import { useSelector } from "react-redux";
-import { RootState } from "data/reduxStore";
 
 function Home() {
-  const searchValue = useSelector((state: RootState) => state.searchInStore.searchText);
-  const isSearching = useSelector((state: RootState) => state.searchInStore.isSearching);
-
   return (
     <>
       <CurrentPage currentPage={"Home"}></CurrentPage>
@@ -25,11 +20,7 @@ function Home() {
         </Link>
         <SearchBar></SearchBar>
       </header>
-      {searchValue && isSearching ? (
-        <Cards searchValue={searchValue}></Cards>
-      ) : (
-        "Nothing to display"
-      )}
+      <Cards></Cards>
     </>
   );
 }

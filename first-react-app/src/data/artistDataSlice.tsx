@@ -1,10 +1,6 @@
 import { lastFM, NewArtistInfo } from "../api/lastFMAPI";
-import { AsyncThunkAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import note from "../assets/note.png";
-import Card from "components/homeComponents/Card";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./reduxStore";
 
 async function getArtistPictures(artists: NewArtistInfo) {
   for (const artist of artists) {

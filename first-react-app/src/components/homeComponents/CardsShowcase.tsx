@@ -3,17 +3,13 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import ModalCard from "./ModalCard";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, store } from "../../data/reduxStore";
-import { getArtistByName } from "../../data/artistDataSlice";
-import { addCard } from "../../data/cardsSlice";
-import { searchNotActive } from "../../data/searchSlice";
+import { AppDispatch, RootState } from "../../data/reduxStore";
 
 function Cards() {
   const [isModalActive, setIsModalActive] = useState(false);
   const [currentArtist, setCurrentArtist] = useState("");
   const [currentCard, setCurrentCard] = useState<JSX.Element>();
 
-  const cardsStore = useSelector((state: RootState) => state.cardsInStore.cards);
   const searchStore = useSelector((state: RootState) => state.searchInStore);
   const artistsStore = useSelector((state: RootState) => state.artistsInStore);
   const dispatch = useDispatch<AppDispatch>();
@@ -22,39 +18,6 @@ function Cards() {
     const artistData = await lastFM.getArtistInfo(artist);
     return artistData;
   }
-
-  function addArtistToArray() {
-    const artistInfo: JSX.Element[] = [];
-    let count = 1;
-    if (artistsStore.artists === null || artistsStore.artists) {
-      console.log(artistsStore.artists, "artists store is null in addArtist to Array");
-      return;
-    }
-    for (const artists of artistsStore!.artists) {
-      artistInfo.push(
-        <Card
-          handleCardClick={displayModalWindow}
-          key={count}
-          songArtist={artists.name}
-          songImage={artists.image}
-        ></Card>
-      );
-      count++;
-    }
-    dispatch(addCard(artistInfo));
-  }
-
-/*   useEffect(() => {
-    if (searchStore.searchText.length < 1) return;
-    function displayCards() {
-      dispatch(getArtistByName(searchStore.searchText));
-      addArtistToArray();
-    }
-    displayCards();
-    console.log(artistsStore);
-    console.log(cardsStore);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchStore.isSearching]); */
 
   useEffect(() => {
     if (isModalActive) {

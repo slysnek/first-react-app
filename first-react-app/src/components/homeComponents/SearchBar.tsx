@@ -1,7 +1,7 @@
 import { addingTextToSearch, searchActive } from "../../data/searchSlice";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, store } from "../../data/reduxStore";
+import { AppDispatch, RootState } from "../../data/reduxStore";
 import { getArtistByName } from "../../data/artistDataSlice";
 
 function SearchBar() {
@@ -12,7 +12,7 @@ function SearchBar() {
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     dispatch(searchActive());
-    dispatch(getArtistByName(searchValue))
+    dispatch(getArtistByName(searchValue));
     e.preventDefault();
   }
 

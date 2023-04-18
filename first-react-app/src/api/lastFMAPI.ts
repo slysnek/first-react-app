@@ -1,4 +1,5 @@
 import fetch from "cross-fetch";
+import { json } from "react-router-dom";
 
 interface getArtistParams {
   artist: string;
@@ -18,6 +19,20 @@ type queryParams = {
   api_key: string;
   format: string;
 };
+
+export type ArtistInfo =
+  | {
+      name: string;
+      image: {
+        size: string;
+        "#text": string;
+      }[];
+    }[];
+
+export type NewArtistInfo = {
+  image: string;
+  name: string;
+}[];
 
 type queryKeys = keyof queryParams;
 
@@ -50,7 +65,11 @@ export const lastFM = {
     };
 
     const data = await this.getInfo(params);
-    const trasformedData = this.transformArtistInfo(data);
+    if (Object.keys(data).length === 0) {
+      return null;
+    }
+    const trasformedData: NewArtistInfo = this.transformArtistInfo(data);
+
     return trasformedData;
   },
 
@@ -62,7 +81,14 @@ export const lastFM = {
 
     const data = await this.getInfo(params);
     const trasformedData = this.transformArtistDataInfo(data);
-    return trasformedData;
+    return trasformedData as unknown as {
+      published: string;
+      summary: string;
+      name: string;
+      similar: { artist: { name: string }[] };
+      tags: { tag: { name: string }[] };
+      bio: { published: string; summary: string };
+    };
   },
 
   transformArtistInfo(artistData: {
@@ -78,8 +104,11 @@ export const lastFM = {
       };
     };
   }) {
-    if (Object.keys(artistData).length === 0) return;
-    return artistData.results.artistmatches.artist;
+    const artists = JSON.parse(JSON.stringify([...artistData.results.artistmatches.artist]));
+    const newArtists: NewArtistInfo = artists.map((artist: any) => {
+      return Object.assign({}, artist, { image: "" });
+    });
+    return newArtists;
   },
 
   transformArtistDataInfo(artistData: {

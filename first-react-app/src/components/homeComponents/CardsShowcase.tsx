@@ -1,10 +1,11 @@
-import { lastFM } from "../../api/lastFMAPI";
+import { lastFM, NewArtistInfo } from "../../api/lastFMAPI";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import note from "../../assets/note.png";
 import ModalCard from "./ModalCard";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "data/reduxStore";
+import { AppDispatch, RootState, store } from "../../data/reduxStore";
+import { ArtistInfo, getArtistByName } from "../../data/artistDataSlice";
 
 function Cards(props: { searchValue: string }) {
   const [cards, setCards] = useState<JSX.Element[] | null>(null);
@@ -13,39 +14,43 @@ function Cards(props: { searchValue: string }) {
   const [currentArtist, setCurrentArtist] = useState("");
   const [currentCard, setCurrentCard] = useState<JSX.Element>();
 
-  const cards2 = useSelector((state: RootState) => state.cardsInStore.cards);
-  const dispatch = useDispatch();
+  const cardsStore = useSelector((state: RootState) => state.cardsInStore.cards);
+  const artistsStore = useSelector((state: RootState) => state.artistsInStore.artists);
+  const dispatch = useDispatch<AppDispatch>();
 
   //don't touch
-  async function getArtistPictures(
-    data: { name: string; image: { size: string; "#text": string }[] }[]
-  ) {
-    for (const artists of data) {
-      const trimmedName = artists.name.replace(/\s+/g, "");
+/*   async function getArtistPictures(artists: NewArtistInfo) {
+    for (const artist of artists) {
+      const trimmedName = artist.name.replace(/\s+/g, "");
       const url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=967b0e577e1c06b79eeb679cb791b1ec&tags=${trimmedName}&extras=url_l&format=json&nojsoncallback=1`;
       const result = await fetch(url);
       const artistPicture = await result.json();
       if (artistPicture.photos.photo.length === 0) {
-        artists.image[3]["#text"] = note;
+        artist.image = note;
       } else {
-        artists.image[3]["#text"] =
+        artist.image =
           artistPicture.photos.photo[
             Math.floor(Math.random() * artistPicture.photos.photo.length)
           ].url_l;
-        if (artists.image[3]["#text"] === undefined) {
+        if (artist.image === undefined) {
           artistPicture.photos.photo[Math.floor(Math.random() * artistPicture.photos.photo.length)]
             .url_l;
         }
       }
     }
-    return data;
-  }
+    return artists;
+  } */
 
   async function addArtistDataToArray() {
     const artistInfo: JSX.Element[] = [];
     if (props.searchValue) setLoading(1);
-    const data = await lastFM.getArtist(props.searchValue);
-    if (data === undefined) {
+    /* const data = await lastFM.getArtist(props.searchValue); */
+
+    const data = await dispatch(getArtistByName(props.searchValue));
+    console.log(data);
+    console.log(store.getState());
+    console.log(artistsStore);
+    if (data === null) {
       setCards(null);
       setLoading(0);
       return;
@@ -55,15 +60,15 @@ function Cards(props: { searchValue: string }) {
       setLoading(2);
       return;
     }
-    const dataWithImages = await getArtistPictures(data);
+    /* const dataWithImages = await getArtistPictures(artistsStore); */
     let count = 1;
-    for (const artists of dataWithImages) {
+    for (const artists of artistsStore) {
       artistInfo.push(
         <Card
           handleCardClick={displayModalWindow}
           key={count}
           songArtist={artists.name}
-          songImage={artists.image[3]["#text"]}
+          songImage={artists.image}
         ></Card>
       );
       count++;

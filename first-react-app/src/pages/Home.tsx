@@ -25,7 +25,11 @@ function Home() {
         </Link>
         <SearchBar></SearchBar>
       </header>
-      <Cards searchValue={isSearching ? searchValue : ""}></Cards>
+      {searchValue && isSearching ? (
+        <Cards searchValue={searchValue}></Cards>
+      ) : (
+        "Nothing to display"
+      )}
     </>
   );
 }

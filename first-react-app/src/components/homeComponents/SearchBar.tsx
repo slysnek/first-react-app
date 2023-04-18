@@ -18,13 +18,12 @@ function SearchBar() {
 
   return (
     <>
-      <h2>Search value from STORE: {searchValue}</h2>
       <form onSubmit={handleSubmit} className="search-wrapper">
         <input
           ref={searchWindow}
           type="search"
           value={searchValue}
-          placeholder="type something here"
+          placeholder="Type something here"
           className="search-input"
           onChange={() => {
             dispatch(addingTextToSearch(searchWindow.current!.value));

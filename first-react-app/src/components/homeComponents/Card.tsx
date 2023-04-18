@@ -3,11 +3,7 @@ import { AppDispatch } from "data/reduxStore";
 import React from "react";
 import { useDispatch } from "react-redux";
 
-function Card(props: {
-  handleCardClick: (arg0: string) => void;
-  songArtist: string;
-  songImage: string;
-}) {
+function Card(props: { songArtist: string; songImage: string }) {
   const { songArtist, songImage } = props;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -15,7 +11,6 @@ function Card(props: {
   function handleClick() {
     dispatch(getArtistModalInfo(songArtist));
     dispatch(changeModal(true));
-    props.handleCardClick(songArtist);
   }
 
   return (

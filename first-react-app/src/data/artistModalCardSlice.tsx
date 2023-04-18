@@ -1,4 +1,4 @@
-import { ArtistModalInfo, lastFM, NewArtistInfo } from "../api/lastFMAPI";
+import { ArtistModalInfo, lastFM } from "../api/lastFMAPI";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const getArtistModalInfo = createAsyncThunk(
@@ -37,12 +37,9 @@ const artistsInfoSlice = createSlice({
       builder.addCase(getArtistModalInfo.fulfilled, (state, action) => {
         state.status = "Modal is Active";
         if (action.payload === null) {
-          console.log("payload is null");
           return;
         }
         state.artistsInfo = action.payload;
-
-        console.log(state.artistsInfo, "state artists info updated");
       }),
       builder.addCase(getArtistModalInfo.rejected, (state) => {
         state.status = "Modal didn't load. Please try again.";

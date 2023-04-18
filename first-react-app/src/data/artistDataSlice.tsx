@@ -41,7 +41,7 @@ interface InitialState {
 
 const initialState = {
   artists: null,
-  status: "Search a song to display here",
+  status: "Search an artist to display here",
 } as InitialState;
 
 const artistsSlice = createSlice({
@@ -53,17 +53,16 @@ const artistsSlice = createSlice({
       state.status = "Loading data...";
     }),
       builder.addCase(getArtistByName.fulfilled, (state, action) => {
-        state.status = "Loaded";
-        if (action.payload === null) {
-          console.log("payload is null");
+        state.status = "We have found some artists:";
+        if (action.payload === null || action.payload.length === 0) {
+          state.status = "No artists with this name were found. Perhaps you made a typo?";
+          state.artists = action.payload;
           return;
         }
         state.artists = action.payload;
-
-        console.log(state.artists, "state artists updated");
       }),
       builder.addCase(getArtistByName.rejected, (state) => {
-        state.status = "An error occured. Please try again.";
+        state.status = "Cannot get data from API. Check your internet connection.";
       });
   },
 });

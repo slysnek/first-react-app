@@ -1,15 +1,11 @@
-import { lastFM } from "../../api/lastFMAPI";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Card from "./Card";
 import ModalCard from "./ModalCard";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../data/reduxStore";
-import { changeModal, getArtistModalInfo } from "../../data/artistModalCardSlice";
+import { changeModal } from "../../data/artistModalCardSlice";
 
 function Cards() {
-  /* const [isModalActive, setIsModalActive] = useState(false); */
-
-  const searchStore = useSelector((state: RootState) => state.searchInStore);
   const artistsStore = useSelector((state: RootState) => state.artistsInStore);
   const modalStore = useSelector((state: RootState) => state.artistsInfoStore.artistsInfo);
   const isModalActive = useSelector((state: RootState) => state.artistsInfoStore.isModalActive);
@@ -34,22 +30,12 @@ function Cards() {
               summary: modalStore!.summary,
             }}
           ></ModalCard>
-        ) : (
-          "no modal"
-        )}
+        ) : null}
       </div>
       <h1>{artistsStore.status}</h1>
-      <h1>{searchStore.isSearching.toString()}</h1>
       <div className="cards-wrapper">
         {artistsStore.artists?.map((el) => {
-          return (
-            <Card
-              handleCardClick={() => console.log("hi")}
-              songArtist={el.name}
-              songImage={el.image}
-              key={Math.random()}
-            ></Card>
-          );
+          return <Card songArtist={el.name} songImage={el.image} key={Math.random()}></Card>;
         })}
       </div>
     </>

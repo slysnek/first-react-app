@@ -17,7 +17,6 @@ export const searchSlice = createSlice({
   reducers: {
     addingTextToSearch: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
-      console.log(state.searchText);
       state.isSearching = false;
     },
     searchActive: (state) => {

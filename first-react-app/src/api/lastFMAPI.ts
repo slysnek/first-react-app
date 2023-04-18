@@ -33,6 +33,18 @@ export type NewArtistInfo = {
   name: string;
 }[];
 
+export type ArtistModalInfo = {
+  name: string;
+  similar: {
+    name: string;
+  }[];
+  tags: {
+    name: string;
+  }[];
+  published: string;
+  summary: string;
+};
+
 type queryKeys = keyof queryParams;
 
 export const lastFM = {
@@ -80,14 +92,7 @@ export const lastFM = {
 
     const data = await this.getInfo(params);
     const trasformedData = this.transformArtistDataInfo(data);
-    return trasformedData as unknown as {
-      published: string;
-      summary: string;
-      name: string;
-      similar: { artist: { name: string }[] };
-      tags: { tag: { name: string }[] };
-      bio: { published: string; summary: string };
-    };
+    return trasformedData as ArtistModalInfo;
   },
 
   transformArtistInfo(artistData: {

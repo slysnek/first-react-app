@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import searchReducer from "./searchSlice";
 import formReducer from "./formSlice";
-import artistsSlice from "./artistDataSlice";
+import artistsReducer from "./artistDataSlice";
+import artistsInfoReducer from "./artistModalCardSlice";
 
 export const store = configureStore({
   reducer: {
     searchInStore: searchReducer,
     formInStore: formReducer,
-    artistsInStore: artistsSlice,
+    artistsInStore: artistsReducer,
+    artistsInfoStore: artistsInfoReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

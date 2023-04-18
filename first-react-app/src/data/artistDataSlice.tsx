@@ -28,7 +28,6 @@ export const getArtistByName = createAsyncThunk(
   "artists/getArtistByNameStatus",
   async (artistName: string) => {
     const response = await lastFM.getArtist(artistName);
-    console.log("gets artists in slice");
     if (response === null) return null;
     const artistsWithPictures = await getArtistPictures(response);
     return artistsWithPictures;

@@ -3,6 +3,8 @@ import { AsyncThunkAction, createAsyncThunk, createSlice } from "@reduxjs/toolki
 import type { PayloadAction } from "@reduxjs/toolkit";
 import note from "../assets/note.png";
 import Card from "components/homeComponents/Card";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./reduxStore";
 
 async function getArtistPictures(artists: NewArtistInfo) {
   for (const artist of artists) {
@@ -56,12 +58,13 @@ const artistsSlice = createSlice({
       state.status = "Loading data...";
     }),
       builder.addCase(getArtistByName.fulfilled, (state, action) => {
-        state.status = "";
+        state.status = "Loaded";
         if (action.payload === null) {
           console.log("payload is null");
           return;
         }
         state.artists = action.payload;
+
         console.log(state.artists, "state artists updated");
       }),
       builder.addCase(getArtistByName.rejected, (state) => {

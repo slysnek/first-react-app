@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, store } from "../../data/reduxStore";
 import { getArtistByName } from "../../data/artistDataSlice";
 import { addCard } from "../../data/cardsSlice";
-import { UNSAFE_DEFERRED_SYMBOL } from "@remix-run/router";
+import { searchNotActive } from "../../data/searchSlice";
 
 function Cards() {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -26,7 +26,7 @@ function Cards() {
   function addArtistToArray() {
     const artistInfo: JSX.Element[] = [];
     let count = 1;
-    if (artistsStore.artists === null) {
+    if (artistsStore.artists === null || artistsStore.artists) {
       console.log(artistsStore.artists, "artists store is null in addArtist to Array");
       return;
     }
@@ -44,7 +44,7 @@ function Cards() {
     dispatch(addCard(artistInfo));
   }
 
-  useEffect(() => {
+/*   useEffect(() => {
     if (searchStore.searchText.length < 1) return;
     function displayCards() {
       dispatch(getArtistByName(searchStore.searchText));
@@ -54,7 +54,7 @@ function Cards() {
     console.log(artistsStore);
     console.log(cardsStore);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchStore.isSearching, cardsStore]);
+  }, [searchStore.isSearching]); */
 
   useEffect(() => {
     if (isModalActive) {
@@ -95,11 +95,17 @@ function Cards() {
     <>
       {isModalActive ? currentCard : null}
       <h1>{artistsStore.status}</h1>
+      <h1>{searchStore.isSearching.toString()}</h1>
       <div className="cards-wrapper">
-        {" "}
-        artists from store:
         {artistsStore.artists?.map((el) => {
-          return <Card songArtist={el.name} songImage={el.image} key={Math.random()}></Card>;
+          return (
+            <Card
+              handleCardClick={displayModalWindow}
+              songArtist={el.name}
+              songImage={el.image}
+              key={Math.random()}
+            ></Card>
+          );
         })}
       </div>
     </>

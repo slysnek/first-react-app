@@ -2,6 +2,7 @@ import { addingTextToSearch, searchActive } from "../../data/searchSlice";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, store } from "../../data/reduxStore";
+import { getArtistByName } from "../../data/artistDataSlice";
 
 function SearchBar() {
   const searchWindow = useRef<HTMLInputElement>(null);
@@ -11,6 +12,7 @@ function SearchBar() {
 
   async function handleSubmit(e: { preventDefault: () => void }) {
     dispatch(searchActive());
+    dispatch(getArtistByName(searchValue))
     e.preventDefault();
   }
 
@@ -26,7 +28,6 @@ function SearchBar() {
           className="search-input"
           onChange={() => {
             dispatch(addingTextToSearch(searchWindow.current!.value));
-            setTimeout(() => console.log(searchValue), 3000);
           }}
         />
         <button type="submit" className="search-button">

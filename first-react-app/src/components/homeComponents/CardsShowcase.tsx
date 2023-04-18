@@ -8,7 +8,9 @@ import { changeModal } from "../../data/artistModalCardSlice";
 function Cards() {
   const artistsStore = useSelector((state: RootState) => state.artistsInStore);
   const modalStore = useSelector((state: RootState) => state.artistsInfoStore.artistsInfo);
-  const isModalActive = useSelector((state: RootState) => state.artistsInfoStore.isModalActive);
+  const isModalActiveStore = useSelector(
+    (state: RootState) => state.artistsInfoStore.isModalActive
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   function closeModalWindow() {
@@ -18,7 +20,7 @@ function Cards() {
   return (
     <>
       <div className="modal-wrapper">
-        {modalStore && isModalActive ? (
+        {modalStore && isModalActiveStore ? (
           <ModalCard
             key={Math.random()}
             handleModalClose={closeModalWindow}

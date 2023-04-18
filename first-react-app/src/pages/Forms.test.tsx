@@ -4,22 +4,28 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 
 import { describe } from "vitest";
+import { Provider } from "react-redux";
+import { store } from "../data/reduxStore";
 
 describe("Form test", () => {
   it("Renders value in text input", () => {
     render(
-      <MemoryRouter initialEntries={["/forms"]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/forms"]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
     );
     const res = screen.getByDisplayValue("Best Song In The World");
     expect(res).toHaveValue("Best Song In The World");
   });
   it("Applies hidden class", async () => {
     render(
-      <MemoryRouter initialEntries={["/forms"]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/forms"]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
     );
 
     const error = screen.queryByText(
@@ -30,9 +36,11 @@ describe("Form test", () => {
   });
   it("Shows radio error", async () => {
     const { container } = render(
-      <MemoryRouter initialEntries={["/forms"]}>
-        <App />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/forms"]}>
+          <App />
+        </MemoryRouter>
+      </Provider>
     );
 
     const button = getByText(container, "Submit");

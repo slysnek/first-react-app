@@ -61,7 +61,7 @@ const artistsSlice = createSlice({
           console.log("payload is null");
           return;
         }
-        state.artists = { ...action.payload };
+        state.artists = action.payload;
         console.log(state.artists, "state artists updated");
       }),
       builder.addCase(getArtistByName.rejected, (state) => {
